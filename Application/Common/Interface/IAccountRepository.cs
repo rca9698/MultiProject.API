@@ -1,4 +1,5 @@
 ﻿using Application.AccountDetails.Command;
+using Application.AccountDetails.Query;
 using Domain.Common;
 using Domain.Entities;
 using System;
@@ -11,8 +12,9 @@ namespace Application.Common.Interface
 {
     public interface IAccountRepository
     {
-        Task<ReturnType<AccountDetail>> GetAccounts();
+        Task<ReturnType<AccountDetail>> GetAccounts(GetAccountsQuery entity);
         Task<ReturnType<bool>> AddAccount(AddAccountCommand entity);
+        Task<ReturnType<bool>> AddAccountRequest(AddAccountRequestCommand entity);
         Task<ReturnType<bool>> DeleteAccount(DeleteAccountCommand entity);
     }
 }

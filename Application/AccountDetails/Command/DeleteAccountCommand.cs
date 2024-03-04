@@ -10,6 +10,8 @@ namespace Application.AccountDetails.Command
 {
     public class DeleteAccountCommand : IRequest<ReturnType<bool>>
     {
-
+        public long UserId { get; set; }
+        public int SiteID { get; set; }
+        public long SessionUser { get; set; }
     }
 }

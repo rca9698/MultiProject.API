@@ -20,7 +20,7 @@ namespace Application.UserDetails.Query
 
         public Task<ReturnType<UserDetail>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            return _userRepository.GetUsers();
+            return _userRepository.GetUsers(request);
         }
     }
 }

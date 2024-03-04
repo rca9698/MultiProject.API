@@ -1,5 +1,4 @@
 ﻿using Domain.Common;
-using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.AccountDetails.Query
+namespace Application.AccountDetails.Command
 {
-    public class GetAccountsQuery : IRequest<ReturnType<AccountDetail>>
+    public class AddAccountRequestCommand : IRequest<ReturnType<bool>>
     {
         public long UserId { get; set; }
+        public int SiteId { get; set; }
     }
 }

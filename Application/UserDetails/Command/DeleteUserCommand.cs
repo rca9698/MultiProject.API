@@ -11,6 +11,7 @@ namespace Application.UserDetails.Command
 {
     public class DeleteUserCommand : IRequest<ReturnType<bool>>
     {
-        
+        public long UserId { get; set; }
+        public long SessionUser { get; set; }
     }
 }

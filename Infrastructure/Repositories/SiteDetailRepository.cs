@@ -1,6 +1,6 @@
-﻿using Application.CoinsDetail.Command;
-using Application.CoinsDetail.Common.Interface;
-using Application.CoinsDetail.Query;
+﻿using Application.Common.Interface;
+using Application.Site.Command;
+using Application.Site.Query;
 using Dapper;
 using Domain.Common;
 using Domain.Entities;
@@ -11,61 +11,36 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Dapper.SqlMapper;
 
 namespace Infrastructure.Repositories
 {
-    public class CoinRepository : DbConnector, ICoinRepository
+    public class SiteDetailRepository : DbConnector, ISiteDetailRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        public CoinRepository(IConfiguration configuration, ILogger<UserRepository> logger)
+        public SiteDetailRepository(IConfiguration configuration, ILogger<UserRepository> logger)
             : base(configuration)
         {
             _logger = logger;
         }
 
-        public async Task<ReturnType<CoinModel>> ListCoinsDetail(ListCoinsDetailQuery entity)
-        {
-            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@SessionUser", entity.SessionUser);
-
-                using (var connection = CreateConnection())
-                {
-                    connection.Open();
-                    var res = await connection.QueryAsync<CoinModel>("USP_GetListCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    returnType.ReturnList = res.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
-            }
-            return returnType;
-        }
-        public async Task<ReturnType<bool>> InsertCoins(AddCoinsCommand entity)
+        public async Task<ReturnType<bool>> AddSite(AddSiteCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
-
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@Coin", entity.Coin);
+                parameters.Add("@SiteName", entity.SiteName);
+                parameters.Add("@SiteURL", entity.SiteURL);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_InsertCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -73,27 +48,25 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > InsertCoins");
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > AddSite");
             }
-
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand entity)
+        public async Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@Coin", entity.Coin);
+                parameters.Add("@SiteId", entity.SiteId);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_DeleteSite", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -101,7 +74,32 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoins");
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > DeleteSite");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity)
+        {
+            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > Getsites");
             }
             return returnType;
         }

@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.AccountDetails.Query
+namespace Application.Site.Command
 {
-    public class GetAccountsQuery : IRequest<ReturnType<AccountDetail>>
+    public class DeleteSiteCommand : IRequest<ReturnType<bool>>
     {
-        public long UserId { get; set; }
+        public int SiteId { get; set; }
+        public long SessionUser { get; set; }
     }
 }

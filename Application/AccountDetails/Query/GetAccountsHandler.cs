@@ -20,7 +20,7 @@ namespace Application.AccountDetails.Query
 
         public Task<ReturnType<AccountDetail>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
         {
-            return _accountRepository.GetAccounts();
+            return _accountRepository.GetAccounts(request);
         }
     }
 }
