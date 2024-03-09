@@ -15,5 +15,9 @@ namespace Domain.Entities
         public string EmailId { get; set; }
         public string Password { get; set; }
         public long SessionUser { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedDate { get; set; }
     }
 }

@@ -35,12 +35,13 @@ namespace Infrastructure.Repositories
                 parameters.Add("@BankName", entity.BankName);
                 parameters.Add("@AccountNumber", entity.AccountNumber);
                 parameters.Add("@IFSCCode", entity.IFSCCode);
+                parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_InsertBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -59,14 +60,15 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@BankId", entity.BankId);
+                parameters.Add("@BankAccountId", entity.BankId);
                 parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_InsertBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_DeleteBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -91,7 +93,7 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_GetBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -115,12 +117,13 @@ namespace Infrastructure.Repositories
                 parameters.Add("@BankName", entity.BankName);
                 parameters.Add("@AccountNumber", entity.AccountNumber);
                 parameters.Add("@IFSCCode", entity.IFSCCode);
+                parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_UpdateBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
