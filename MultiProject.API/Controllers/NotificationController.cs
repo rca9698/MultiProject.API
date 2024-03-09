@@ -1,5 +1,6 @@
-﻿using Application.UserDetails.Command;
-using Application.UserDetails.Query;
+﻿using Application.AccountDetails.Command;
+using Application.Notification.Command;
+using Application.Notification.Query;
 using Domain.Common;
 using Domain.Entities;
 using MediatR;
@@ -10,35 +11,35 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class NotificationController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
-        public UserController(IMediator mediator, ILogger<UserController> logger)
+        public NotificationController(IMediator mediator, ILogger<UserController> logger)
         {
             _mediator = mediator;
             _logger = logger;
         }
 
-        [HttpGet]
-        [Route("GetUsers")]
-        public async Task<ReturnType<UserDetail>> GetUsers(GetUsersQuery request)
+        [HttpPost]
+        [Route("GetNotifications")]
+        public async Task<ReturnType<NotificationDetail>> GetNotifications(GetNotificationQuery request)
         {
-            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
+            ReturnType<NotificationDetail> returnType = new ReturnType<NotificationDetail>();
             try
             {
                 await _mediator.Send(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserController > GetUsers");
+                _logger.LogError(ex, "Exception Occured at NotificationController > GetNotifications");
             }
             return returnType;
         }
 
         [HttpPost]
-        [Route("AddUser")]
-        public async Task<ReturnType<bool>> AddUser(AddUserCommand request)
+        [Route("InsertNotification")]
+        public async Task<ReturnType<bool>> InsertNotification(InsertNotificationCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -47,14 +48,14 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserController > AddUsers");
+                _logger.LogError(ex, "Exception Occured at NotificationController > InsertNotification");
             }
             return returnType;
         }
 
         [HttpPost]
-        [Route("DeleteUser")]
-        public async Task<ReturnType<bool>> DeleteUser(DeleteUserCommand request)
+        [Route("DeleteNotification")]
+        public async Task<ReturnType<bool>> DeleteNotification(DeleteNotificationCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -63,14 +64,14 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserController > DeleteUsers");
+                _logger.LogError(ex, "Exception Occured at NotificationController > DeleteNotification");
             }
             return returnType;
         }
 
         [HttpPost]
-        [Route("UpdateUser")]
-        public async Task<ReturnType<bool>> UpdateUser(UpdateUserCommand request)
+        [Route("UpdateNotification")]
+        public async Task<ReturnType<bool>> UpdateNotification(UpdateNotificationCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -79,9 +80,10 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserController > UpdateUser");
+                _logger.LogError(ex, "Exception Occured at NotificationController > UpdateNotification");
             }
             return returnType;
         }
+
     }
 }

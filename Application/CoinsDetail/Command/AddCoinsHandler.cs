@@ -19,7 +19,7 @@ namespace Application.CoinsDetail.Command
 
         public async Task<ReturnType<bool>> Handle(AddCoinsCommand request, CancellationToken cancellationToken)
         {
-           return await _coinRepository.InsertCoins(request);
+           return await _coinRepository.AddCoins(request);
         }
     }
 }

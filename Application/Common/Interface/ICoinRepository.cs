@@ -12,8 +12,8 @@ namespace Application.CoinsDetail.Common.Interface
 {
     public interface ICoinRepository
     {
-        public Task<ReturnType<CoinModel>> ListCoinsDetail(ListCoinsDetailQuery entity);
-        Task<ReturnType<bool>> InsertCoins(AddCoinsCommand entity);
+        Task<ReturnType<CoinModel>> ListCoinsDetail(ListCoinsDetailQuery entity);
+        Task<ReturnType<bool>> AddCoins(AddCoinsCommand entity);
         Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand request);
     }
 }

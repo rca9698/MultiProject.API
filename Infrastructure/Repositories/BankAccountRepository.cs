@@ -1,6 +1,6 @@
-﻿using Application.Common.Interface;
-using Application.Site.Command;
-using Application.Site.Query;
+﻿using Application.BankAccount.Command;
+using Application.BankAccount.Query;
+using Application.Common.Interface;
 using Dapper;
 using Domain.Common;
 using Domain.Entities;
@@ -17,30 +17,30 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class SiteDetailRepository : DbConnector, ISiteDetailRepository
+    public class BankAccountRepository : DbConnector, IBankAccountRepository
     {
-        private readonly ILogger<UserRepository> _logger;
-        public SiteDetailRepository(IConfiguration configuration, ILogger<UserRepository> logger)
-            : base(configuration)
+        private readonly ILogger<BankAccountRepository> _logger;
+        public BankAccountRepository(IConfiguration configuration,ILogger<BankAccountRepository> logger):base(configuration)
         {
             _logger = logger;
         }
 
-        public async Task<ReturnType<bool>> AddSite(AddSiteCommand entity)
+        public async Task<ReturnType<bool>> AddBankAccount(AddBankAccountCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteName", entity.SiteName);
-                parameters.Add("@SiteURL", entity.SiteURL);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@BankName", entity.BankName);
+                parameters.Add("@AccountNumber", entity.AccountNumber);
+                parameters.Add("@IFSCCode", entity.IFSCCode);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -48,25 +48,25 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > AddSite");
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > AddBankAccount");
             }
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity)
+        public async Task<ReturnType<bool>> DeleteBankAccount(DeleteBankAccountCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteId", entity.SiteId);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@BankId", entity.BankId);
+                parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteSite", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -74,24 +74,24 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > DeleteSite");
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteBankAccount");
             }
             return returnType;
         }
 
-        public async Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity)
+        public async Task<ReturnType<BankDetails>> GetBankAccounts(GetBankAccountQuery entity)
         {
-            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_GetBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -99,26 +99,28 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > Getsites");
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetBankAccounts");
             }
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity)
+        public async Task<ReturnType<bool>> updateBankAccount(UpdateBankAccountCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteName", entity.SiteName);
-                parameters.Add("@SiteURL", entity.SiteURL);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@BankId", entity.BankId);
+                parameters.Add("@BankName", entity.BankName);
+                parameters.Add("@AccountNumber", entity.AccountNumber);
+                parameters.Add("@IFSCCode", entity.IFSCCode);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_UpdateSite", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_UpdateBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -126,7 +128,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > UpdateSite");
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > updateBankAccount");
             }
             return returnType;
         }

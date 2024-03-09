@@ -50,10 +50,10 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
-        public async Task<ReturnType<bool>> InsertCoins(AddCoinsCommand entity)
+        
+        public async Task<ReturnType<bool>> AddCoins(AddCoinsCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
-
             try
             {
                 var parameters = new DynamicParameters();

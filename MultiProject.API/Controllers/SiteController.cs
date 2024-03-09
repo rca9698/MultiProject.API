@@ -32,13 +32,13 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > GetSites");
+                _logger.LogError(ex, "Exception Occured at SiteController > GetSites");
             }
             return returnType;
         }
 
         [HttpGet]
-        [Route("AddSites")]
+        [Route("GetSites")]
         public async Task<ReturnType<bool>> GetSites(AddSiteCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
@@ -48,7 +48,7 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > AddSites");
+                _logger.LogError(ex, "Exception Occured at SiteController > AddSites");
             }
             return returnType;
         }
@@ -64,7 +64,23 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > DeleteSites");
+                _logger.LogError(ex, "Exception Occured at SiteController > DeleteSites");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("UpdateSite")]
+        public async Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand request)
+        {
+            ReturnType<bool> returnType = new ReturnType<bool>();
+            try
+            {
+                await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > UpdateSite");
             }
             return returnType;
         }

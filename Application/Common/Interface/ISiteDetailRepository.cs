@@ -17,5 +17,6 @@ namespace Application.Common.Interface
         Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity);
         Task<ReturnType<bool>> AddSite(AddSiteCommand entity);
         Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity);
+        Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity);
     }
 }

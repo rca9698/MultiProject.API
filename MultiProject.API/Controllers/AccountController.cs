@@ -1,4 +1,5 @@
 ﻿using Application.AccountDetails.Command;
+using Application.AccountDetails.Query;
 using Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,9 @@ namespace MultiProject.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAccounts")]
-        public async Task<ReturnType<bool>> GetAccounts(AddAccountCommand request)
+        public async Task<ReturnType<bool>> GetAccounts(GetAccountsQuery request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -49,6 +50,23 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("AddAccountRequest")]
+        public async Task<ReturnType<bool>> AddAccountRequest(AddAccountRequestCommand request)
+        {
+            ReturnType<bool> returnType = new ReturnType<bool>();
+            try
+            {
+                await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > AddAccount");
+            }
+            return returnType;
+        }
+
 
         [HttpPost]
         [Route("DeleteAccount")]

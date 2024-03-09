@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interface;
-using Application.Site.Command;
-using Application.Site.Query;
+using Application.LoginSgnup.Command;
+using Application.Notification.Command;
+using Application.Notification.Query;
 using Dapper;
 using Domain.Common;
 using Domain.Entities;
@@ -14,33 +15,32 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Infrastructure.Repositories
 {
-    public class SiteDetailRepository : DbConnector, ISiteDetailRepository
+    public class NotificationRepository: DbConnector, INotificationRepository
     {
-        private readonly ILogger<UserRepository> _logger;
-        public SiteDetailRepository(IConfiguration configuration, ILogger<UserRepository> logger)
+        private readonly Logger<NotificationRepository> _logger;
+        protected NotificationRepository(IConfiguration configuration, Logger<NotificationRepository> logger) 
             : base(configuration)
         {
             _logger = logger;
         }
 
-        public async Task<ReturnType<bool>> AddSite(AddSiteCommand entity)
+        public async Task<ReturnType<bool>> DeleteNotification(DeleteNotificationCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteName", entity.SiteName);
-                parameters.Add("@SiteURL", entity.SiteURL);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@NotificationId", entity.NotificationId);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_DeleteNotification", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -48,25 +48,24 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > AddSite");
+                _logger.LogError(ex, "Exception Occured at NotificationRepository > Login");
             }
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity)
+        public async Task<ReturnType<bool>> InsertNotification(InsertNotificationCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteId", entity.SiteId);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@NotificationDescription", entity.NotificationDescription);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteSite", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertNotification", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -74,51 +73,25 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > DeleteSite");
+                _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Login");
             }
             return returnType;
         }
 
-        public async Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity)
-        {
-            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@SessionUser", entity.SessionUser);
-                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
-
-                using (var connection = CreateConnection())
-                {
-                    connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    int returnVal = parameters.Get<int>("@ReturnVal");
-                    returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnMessage = res.FirstOrDefault();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > Getsites");
-            }
-            return returnType;
-        }
-
-        public async Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity)
+        public async Task<ReturnType<bool>> UpdateNotification(UpdateNotificationCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SiteName", entity.SiteName);
-                parameters.Add("@SiteURL", entity.SiteURL);
-                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@NotificationId", entity.NotificationId);
+                parameters.Add("@NotificationDescription", entity.NotificationDescription);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_UpdateSite", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertNotification", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -126,7 +99,32 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > UpdateSite");
+                _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Login");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<NotificationDetail>> GetNotifications(GetNotificationQuery entity)
+        {
+            ReturnType<NotificationDetail> returnType = new ReturnType<NotificationDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<NotificationDetail>("USP_GetNotifications", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Login");
             }
             return returnType;
         }

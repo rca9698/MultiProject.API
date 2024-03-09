@@ -1,4 +1,5 @@
 ﻿using Application.CoinsDetail.Common.Interface;
+using Application.Common.Interface;
 using Domain.Common;
 using Domain.Entities;
 using MediatR;
@@ -20,7 +21,7 @@ namespace Application.CoinsDetail.Query
 
         public Task<ReturnType<CoinModel>> Handle(ListCoinsDetailQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _coinRepository.ListCoinsDetail(request);
         }
     }
 }

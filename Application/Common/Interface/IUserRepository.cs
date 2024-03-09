@@ -15,5 +15,6 @@ namespace Application.Common.Interface
         Task<ReturnType<UserDetail>> GetUsers(GetUsersQuery entity);
         Task<ReturnType<bool>> AddUser(AddUserCommand entity);
         Task<ReturnType<bool>> DeleteUser(DeleteUserCommand entity);
+        Task<ReturnType<bool>> UpdateUser(UpdateUserCommand entity);
     }
 }

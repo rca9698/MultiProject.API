@@ -49,6 +49,7 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+        
         public async Task<ReturnType<bool>> AddUser(AddUserCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
@@ -78,6 +79,7 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
         public async Task<ReturnType<bool>> DeleteUser(DeleteUserCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
@@ -100,6 +102,37 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > DeleteUser");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<bool>> UpdateUser(UpdateUserCommand entity)
+        {
+            ReturnType<bool> returnType = new ReturnType<bool>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@FirstName", entity.FirstName);
+                parameters.Add("@LastName", entity.LastName);
+                parameters.Add("@EmailId", entity.EmailId);
+                parameters.Add("@Password", entity.Password);
+                parameters.Add("@MobileNumber", entity.MobileNumber);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_AddUser", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > AddUser");
             }
             return returnType;
         }
