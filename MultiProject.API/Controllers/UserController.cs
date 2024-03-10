@@ -10,7 +10,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
@@ -20,7 +20,7 @@ namespace MultiProject.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetUsers")]
         public async Task<ReturnType<UserDetail>> GetUsers(GetUsersQuery request)
         {

@@ -11,7 +11,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SiteController : ControllerBase
+    public class SiteController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<SiteController> _logger;
@@ -21,7 +21,7 @@ namespace MultiProject.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetSites")]
         public async Task<ReturnType<SiteDetail>> GetSites(ListSitesCommand request)
         {
@@ -37,9 +37,9 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-        [HttpGet]
-        [Route("GetSites")]
-        public async Task<ReturnType<bool>> GetSites(AddSiteCommand request)
+        [HttpPost]
+        [Route("AddSite")]
+        public async Task<ReturnType<bool>> AddSite(AddSiteCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -53,9 +53,9 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-        [HttpGet]
-        [Route("DeleteSites")]
-        public async Task<ReturnType<bool>> DeleteSites(DeleteSiteCommand request)
+        [HttpPost]
+        [Route("DeleteSite")]
+        public async Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
@@ -69,7 +69,7 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("UpdateSite")]
         public async Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand request)
         {

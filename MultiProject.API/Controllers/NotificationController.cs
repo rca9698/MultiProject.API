@@ -11,7 +11,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NotificationController : ControllerBase
+    public class NotificationController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;

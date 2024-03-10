@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
     public class LoginSignupRepository :DbConnector, ILoginSignupRepository
     {
         public readonly ILogger<LoginSignupRepository> _logger;
-        protected LoginSignupRepository(IConfiguration configuration, ILogger<LoginSignupRepository> logger) 
+        public LoginSignupRepository(IConfiguration configuration, ILogger<LoginSignupRepository> logger) 
             : base(configuration)
         {
             _logger = logger;
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserName", entity.UserName);
+                parameters.Add("@UserName", entity.UserNumber);
                 parameters.Add("@Password", entity.Password);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 

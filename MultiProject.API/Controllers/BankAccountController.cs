@@ -11,7 +11,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BankAccountController : ControllerBase
+    public class BankAccountController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<BankAccountController> _logger;

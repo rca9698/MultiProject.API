@@ -8,7 +8,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginSignupController : ControllerBase
+    public class LoginSignupController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<LoginSignupController> _logger;

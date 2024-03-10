@@ -21,8 +21,8 @@ namespace Infrastructure.Repositories
 {
     public class NotificationRepository: DbConnector, INotificationRepository
     {
-        private readonly Logger<NotificationRepository> _logger;
-        protected NotificationRepository(IConfiguration configuration, Logger<NotificationRepository> logger) 
+        private readonly ILogger<NotificationRepository> _logger;
+        public NotificationRepository(IConfiguration configuration, ILogger<NotificationRepository> logger) 
             : base(configuration)
         {
             _logger = logger;

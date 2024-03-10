@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
     public class DropDownRepository : DbConnector, IDropDownRepository
     {
         private readonly ILogger<DropDownRepository> _logger;
-        protected DropDownRepository(IConfiguration configuration, ILogger<DropDownRepository> logger) : base(configuration)
+        public DropDownRepository(IConfiguration configuration, ILogger<DropDownRepository> logger) : base(configuration)
         {
             _logger = logger;
         }

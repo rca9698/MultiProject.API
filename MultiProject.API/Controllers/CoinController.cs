@@ -10,7 +10,7 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoinController : ControllerBase
+    public class CoinController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
@@ -20,7 +20,7 @@ namespace MultiProject.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTransaction")]
         public async Task<ReturnType<CoinModel>> GetTransaction(ListCoinsDetailQuery request)
         {

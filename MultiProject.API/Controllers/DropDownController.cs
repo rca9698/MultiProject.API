@@ -1,6 +1,7 @@
 ﻿using Application.DropDown.Command;
 using Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,11 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DropDownController : ControllerBase
+    public class DropDownController : BaseAPIController
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<UserController> _logger;
-        public DropDownController(IMediator mediator, ILogger<UserController> logger)
+        private readonly ILogger<DropDownController> _logger;
+        public DropDownController(IMediator mediator, ILogger<DropDownController> logger)
         {
             _mediator = mediator;
             _logger = logger;
