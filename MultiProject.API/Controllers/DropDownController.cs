@@ -1,5 +1,6 @@
 ﻿using Application.DropDown.Command;
 using Domain.Common;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,12 +22,12 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("GetTransactionType")]
-        public async Task<ReturnType<bool>> GetTransactionType(TransactionTypeCommand request)
+        public async Task<ReturnType<DropDownDetails>> GetTransactionType(TransactionTypeCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<DropDownDetails> returnType = new ReturnType<DropDownDetails>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -37,12 +38,12 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("GetStatusType")]
-        public async Task<ReturnType<bool>> GetStatusType(TransactionTypeCommand request)
+        public async Task<ReturnType<DropDownDetails>> GetStatusType(TransactionTypeCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<DropDownDetails> returnType = new ReturnType<DropDownDetails>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {

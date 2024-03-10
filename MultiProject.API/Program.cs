@@ -42,8 +42,14 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 builder.Services.AddServiceDependency(builder.Configuration); //custom ServiceRegistration
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
+foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+{
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+}
+
+//https://www.c-sharpcorner.com/article/jwt-json-web-token-authentication-in-asp-net-core/
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

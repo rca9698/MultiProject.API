@@ -28,7 +28,7 @@ namespace MultiProject.API.Controllers
             ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {

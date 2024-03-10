@@ -1,6 +1,7 @@
 ﻿using Application.AccountDetails.Command;
 using Application.AccountDetails.Query;
 using Domain.Common;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,12 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("GetAccounts")]
-        public async Task<ReturnType<bool>> GetAccounts(GetAccountsQuery request)
+        public async Task<ReturnType<AccountDetail>> GetAccounts(GetAccountsQuery request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -42,7 +43,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -58,7 +59,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
@@ -75,7 +76,7 @@ namespace MultiProject.API.Controllers
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
-                await _mediator.Send(request);
+                returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
