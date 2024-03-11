@@ -15,7 +15,7 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
-        public NotificationController(IMediator mediator, ILogger<UserController> logger)
+        public NotificationController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;

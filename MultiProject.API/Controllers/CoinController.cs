@@ -5,16 +5,18 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MultiProject.API.ServiceFilter;
 
 namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(ValidateSessionFilter))]
     public class CoinController : BaseAPIController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
-        public CoinController(IMediator mediator, ILogger<UserController> logger)
+        public CoinController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
@@ -25,13 +27,20 @@ namespace MultiProject.API.Controllers
         public async Task<ReturnType<CoinModel>> GetTransaction(ListCoinsDetailQuery request)
         {
             ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
             try
             {
                 returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > GetAccounts");
+                _logger.LogError(ex, "Exception Occured at CoinController > GetAccounts");
             }
             return returnType;
         }
@@ -41,13 +50,20 @@ namespace MultiProject.API.Controllers
         public async Task<ReturnType<bool>> AddCoins(AddCoinsCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
+
+            if(_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            } 
+
             try
             {
                 returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > AddCoins");
+                _logger.LogError(ex, "Exception Occured at CoinController > AddCoins");
             }
             return returnType;
         }
@@ -57,13 +73,19 @@ namespace MultiProject.API.Controllers
         public async Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand request)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
             try
             {
                 returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > AddCoins");
+                _logger.LogError(ex, "Exception Occured at CoinController > AddCoins");
             }
             return returnType;
         }

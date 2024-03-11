@@ -8,9 +8,11 @@ namespace MultiProject.API.Controllers
     [ApiController]
     public class BaseAPIController : ControllerBase
     {
-        public BaseAPIController()
+        protected readonly long _userId;
+        public BaseAPIController(IHttpContextAccessor httpContextAccessor)
         {
-
+           var user = httpContextAccessor.HttpContext.User;
+            _userId = Convert.ToInt64(user.Claims.FirstOrDefault(x => x.Type == "UserId").Value);
         }
     }
 }

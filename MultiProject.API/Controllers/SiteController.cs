@@ -15,7 +15,7 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<SiteController> _logger;
-        public SiteController(IMediator mediator, ILogger<SiteController> logger)
+        public SiteController(IMediator mediator, ILogger<SiteController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;

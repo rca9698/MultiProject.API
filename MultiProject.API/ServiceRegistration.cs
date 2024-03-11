@@ -5,6 +5,7 @@ using Application.CoinsDetail.Common.Interface;
 using Application.Common.Interface;
 using Infrastructure.Repositories;
 using MediatR;
+using MultiProject.API.ServiceFilter;
 
 namespace MultiProject.API
 {
@@ -12,6 +13,9 @@ namespace MultiProject.API
     {
         public static void AddServiceDependency(this IServiceCollection services, IConfiguration config)
         {
+            services.AddScoped<ValidateSessionFilter>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IAccountRepository,AccountRepository>();
             services.AddTransient<IBankAccountRepository, BankAccountRepository>();
             services.AddTransient<ICoinRepository, CoinRepository>();

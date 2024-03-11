@@ -15,7 +15,7 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<BankAccountController> _logger;
-        public BankAccountController(IMediator mediator, ILogger<BankAccountController> logger)
+        public BankAccountController(IMediator mediator, ILogger<BankAccountController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;

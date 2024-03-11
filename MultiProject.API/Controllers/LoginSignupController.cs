@@ -12,7 +12,7 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<LoginSignupController> _logger;
-        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger)
+        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;

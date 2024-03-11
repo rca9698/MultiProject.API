@@ -14,7 +14,7 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<DropDownController> _logger;
-        public DropDownController(IMediator mediator, ILogger<DropDownController> logger)
+        public DropDownController(IMediator mediator, ILogger<DropDownController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
