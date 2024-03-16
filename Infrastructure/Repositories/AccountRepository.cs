@@ -47,6 +47,33 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at AccountRepository > GetAccounts");
+                return AccountList();
+            }
+            return returnType;
+        }
+        
+        public async Task<ReturnType<AccountDetail>> AccountRequestList(AccountRequestListQuery entity)
+        {
+            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_AccountRequestList", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountRepository > AccountRequestList");
+                return AccountList();
             }
             return returnType;
         }
@@ -132,6 +159,125 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
- 
+
+
+        public ReturnType<AccountDetail> AccountList()
+        {
+            return new ReturnType<AccountDetail>()
+            {
+                ReturnList = new List<AccountDetail>()
+                {
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                    new AccountDetail()
+                    {
+                        UserId = 111,
+                        AppName = "Az.com",
+                        AppNumber = 1234,
+                        UserName = "12345",
+                        UserNumber = "0987654321",
+                        AppIcon = "image"
+                    },
+                },
+                ReturnStatus = ReturnStatus.Success
+            };
+        }
     }
 }

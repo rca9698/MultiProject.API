@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.AccountDetails.Query
+namespace Application.CoinsDetail.Query
 {
-    public class GetAccountsQuery : IRequest<ReturnType<AccountDetail>>
+    public class GetCoinsRequestQuery : IRequest<ReturnType<CoinModel>>
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }

@@ -37,6 +37,22 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
+        [Route("AccountRequestList")]
+        public async Task<ReturnType<AccountDetail>> AccountRequestList(AccountRequestListQuery request)
+        {
+            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > AccountRequestList");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
         [Route("AddAccount")]
         public async Task<ReturnType<bool>> AddAccount(AddAccountCommand request)
         {

@@ -47,6 +47,30 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
+                return getCoinsList();
+            }
+            return returnType;
+        }
+        public async Task<ReturnType<CoinModel>> GetCoinsRequest(GetCoinsRequestQuery entity)
+        {
+            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<CoinModel>("USP_GetListCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    returnType.ReturnList = res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
+                return getCoinsList();
             }
             return returnType;
         }
@@ -105,5 +129,53 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public ReturnType<CoinModel> getCoinsList()
+        {
+            return new ReturnType<CoinModel>()
+            {
+                ReturnList = new List<CoinModel>()
+                {
+                    new CoinModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coin = 1000,
+                        CoinColor = "green",
+                        CoinType = 1,
+                        Id = 1
+                    },
+                     new CoinModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coin = 1000,
+                        CoinColor = "green",
+                        CoinType = 1,
+                        Id = 1
+                    },
+                      new CoinModel()
+                    {
+                        UserId = 1234665,
+                        UserName = "Name34",
+                        Coin = 1000,
+                        CoinColor = "green",
+                        CoinType = 1,
+                        Id = 1
+                    },
+                       new CoinModel()
+                    {
+                        UserId = 12323445,
+                        UserName = "Name23",
+                        Coin = 1000,
+                        CoinColor = "green",
+                        CoinType = 1,
+                        Id = 1
+                    },
+                },
+                ReturnStatus = ReturnStatus.Success
+            };
+        }
+
     }
 }

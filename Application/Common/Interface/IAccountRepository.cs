@@ -13,6 +13,7 @@ namespace Application.Common.Interface
     public interface IAccountRepository
     {
         Task<ReturnType<AccountDetail>> GetAccounts(GetAccountsQuery entity);
+        Task<ReturnType<AccountDetail>> AccountRequestList(AccountRequestListQuery entity);
         Task<ReturnType<bool>> AddAccount(AddAccountCommand entity);
         Task<ReturnType<bool>> AddAccountRequest(AddAccountRequestCommand entity);
         Task<ReturnType<bool>> DeleteAccount(DeleteAccountCommand entity);

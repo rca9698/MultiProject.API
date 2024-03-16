@@ -23,6 +23,30 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
+        [Route("GetCoinsRequest")]
+        public async Task<ReturnType<CoinModel>> GetCoinsRequest(ListCoinsDetailQuery request)
+        {
+            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > GetAccounts");
+            }
+            return returnType;
+        }
+
+
+        [HttpPost]
         [Route("GetTransaction")]
         public async Task<ReturnType<CoinModel>> GetTransaction(ListCoinsDetailQuery request)
         {
