@@ -46,6 +46,7 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > GetUsers");
+                return getUsers();
             }
             return returnType;
         }
@@ -136,5 +137,47 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public ReturnType<UserDetail> getUsers()
+        {
+            return new ReturnType<UserDetail>()
+            {
+                ReturnList = new List<UserDetail>()
+                {
+                    new UserDetail()
+                    {
+                        EmailId = "asdsa.cas",
+                        MobileNumber = "12345678",
+                        UserId = 23456,
+                        FirstName = "Fnsdame",
+                        LastName = "Lnasdme",
+                        UpdatedBy = "waSDdsa",
+                        UpdatedDate = "23/feb/2023"
+                    },
+                    new UserDetail()
+                    {
+                        EmailId = "asdsdsa.cas",
+                        MobileNumber = "123456789",
+                        UserId = 23243456,
+                        FirstName = "Fname",
+                        LastName = "Lname",
+                        UpdatedBy = "wadsa",
+                        UpdatedDate = "23/feb/2023"
+                    },
+                    new UserDetail()
+                    {
+                        EmailId = "asSDdsa.cas",
+                        MobileNumber = "12345678",
+                        UserId = 23456234,
+                        FirstName = "Fnsdame",
+                        LastName = "LnaszDme",
+                        UpdatedBy = "wadsa",
+                        UpdatedDate = "23/feb/2023"
+                    }
+                },
+                ReturnStatus = ReturnStatus.Success,
+            };
+        }
+
     }
 }
