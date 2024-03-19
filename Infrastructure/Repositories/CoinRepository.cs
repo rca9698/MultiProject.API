@@ -51,9 +51,9 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
-        public async Task<ReturnType<CoinModel>> GetCoinsRequest(GetCoinsRequestQuery entity)
+        public async Task<ReturnType<CoinsRequestModel>> GetCoinsRequest(GetCoinsRequestQuery entity)
         {
-            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+            ReturnType<CoinsRequestModel> returnType = new ReturnType<CoinsRequestModel>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -63,14 +63,14 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<CoinModel>("USP_GetListCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<CoinsRequestModel>("USP_GetListCoinsRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     returnType.ReturnList = res.ToList();
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
-                return getCoinsList();
+                return getCoinsRequestList();
             }
             return returnType;
         }
@@ -177,5 +177,279 @@ namespace Infrastructure.Repositories
             };
         }
 
+        public ReturnType<CoinsRequestModel> getCoinsRequestList()
+        {
+            return new ReturnType<CoinsRequestModel>()
+            {
+                ReturnList = new List<CoinsRequestModel>()
+                {
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 0,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    },
+                    new CoinsRequestModel()
+                    {
+                        UserId = 12345,
+                        UserName = "Name",
+                        Coins =20,
+                        CoinsRequestId =123,
+                        CoinType = 1,
+                        CoinTypeColor = "resd",
+                        UserNumber = "ASDFGHJ",
+                        UpdatedBy = "ah"
+                    }
+                },
+                ReturnStatus = ReturnStatus.Success
+            };
+        }
     }
 }
