@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interface;
 using Domain.Common;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.LoginSgnup.Command
 {
-    public class LoginHandler : IRequestHandler<LoginCommand,ReturnType<bool>>
+    public class LoginHandler : IRequestHandler<LoginCommand,ReturnType<UserDetail>>
     {
         private readonly ILoginSignupRepository _loginSignupRepository;
         public LoginHandler(ILoginSignupRepository loginSignupRepository)
@@ -17,9 +18,9 @@ namespace Application.LoginSgnup.Command
             _loginSignupRepository = loginSignupRepository;
         }
 
-        public async Task<ReturnType<bool>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<UserDetail>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            ReturnType<bool> result = new ReturnType<bool>();
+            ReturnType<UserDetail> result = new ReturnType<UserDetail>();
             try
             {
                 return await _loginSignupRepository.Login(request);

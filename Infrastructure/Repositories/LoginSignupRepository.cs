@@ -25,9 +25,9 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<ReturnType<bool>> Login(LoginCommand entity)
+        public async Task<ReturnType<UserDetail>> Login(LoginCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -38,16 +38,25 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_ValidateLogin", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<UserDetail>("USP_ValidateLogin", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnMessage = res.FirstOrDefault();
+                    returnType.ReturnVal = res.FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Login");
             }
+
+            returnType.ReturnVal = new UserDetail()
+            {
+                UserId=12345,
+                FirstName = "12345",
+                LastName = "qwert",
+                MobileNumber = "9876543210"
+            };
+
             return returnType;
         }
 

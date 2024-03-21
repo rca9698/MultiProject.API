@@ -1,5 +1,7 @@
 ﻿using Application.AccountDetails.Command;
+using Application.LoginSgnup.Command;
 using Domain.Common;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +10,11 @@ namespace MultiProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginSignupController : BaseAPIController
+    public class LoginSignupController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<LoginSignupController> _logger;
-        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor) //: base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
@@ -20,9 +22,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ReturnType<bool>> Login(AddAccountCommand request)
+        public async Task<ReturnType<UserDetail>> Login(LoginCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
             try
             {
                 returnType = await _mediator.Send(request);
