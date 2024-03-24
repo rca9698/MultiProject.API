@@ -53,6 +53,7 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
         public async Task<ReturnType<CoinsRequestModel>> GetCoinsRequest(GetCoinsRequestQuery entity)
         {
             ReturnType<CoinsRequestModel> returnType = new ReturnType<CoinsRequestModel>();
@@ -137,5 +138,66 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<bool>> AddCoinsRequest(InsertCoinRequestCommand entity)
+        {
+            ReturnType<bool> returnType = new ReturnType<bool>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@DocumentDetailId", entity.DocumentDetailId);
+                parameters.Add("@ImageSize", entity.ImageSize);
+                parameters.Add("@FileExtenstion", entity.FileExtenstion);
+                parameters.Add("@CoinType", 1);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > AddCoinsRequest");
+            }
+
+            return returnType;
+        }
+
+
+        public async Task<ReturnType<bool>> DeleteCoinsRequest(DeleteCoinRequestCommand entity)
+        {
+            ReturnType<bool> returnType = new ReturnType<bool>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", 0);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoinsRequest");
+            }
+
+            return returnType;
+        }
     }
 }
