@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Query
 {
-    public class ListCoinsDetailHandler : IRequestHandler<ListCoinsDetailQuery,ReturnType<CoinModel>>
+    public class ListCoinsDetailHandler : IRequestHandler<ListCoinsDetailQuery,ReturnType<CoinsRequestModel>>
     {
         private readonly ICoinRepository _coinRepository;
         public ListCoinsDetailHandler(ICoinRepository coinRepository)
@@ -19,7 +19,7 @@ namespace Application.CoinsDetail.Query
             _coinRepository = coinRepository;
         }
 
-        public Task<ReturnType<CoinModel>> Handle(ListCoinsDetailQuery request, CancellationToken cancellationToken)
+        public Task<ReturnType<CoinsRequestModel>> Handle(ListCoinsDetailQuery request, CancellationToken cancellationToken)
         {
             return _coinRepository.ListCoinsDetail(request);
         }

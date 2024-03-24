@@ -12,7 +12,7 @@ namespace Application.CoinsDetail.Common.Interface
 {
     public interface ICoinRepository
     {
-        Task<ReturnType<CoinModel>> ListCoinsDetail(ListCoinsDetailQuery entity);
+        Task<ReturnType<CoinsRequestModel>> ListCoinsDetail(ListCoinsDetailQuery entity);
         Task<ReturnType<CoinsRequestModel>> GetCoinsRequest(GetCoinsRequestQuery entity);
         Task<ReturnType<bool>> AddCoins(AddCoinsCommand entity);
         Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand request);

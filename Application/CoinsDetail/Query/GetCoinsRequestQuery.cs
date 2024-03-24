@@ -11,6 +11,7 @@ namespace Application.CoinsDetail.Query
 {
     public class GetCoinsRequestQuery : IRequest<ReturnType<CoinsRequestModel>>
     {
+        public int CoinType { get; set; }
         public long UserId { get; set; }
         public long SessionUser { get; set; }
     }

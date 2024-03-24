@@ -12,6 +12,6 @@ namespace Application.CoinsDetail.Command
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }
-        public double Coin { get; set; }
+        public double Coins { get; set; }
     }
 }

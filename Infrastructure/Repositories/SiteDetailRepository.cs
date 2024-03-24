@@ -38,16 +38,15 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<SiteDetail>("USP_GetSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnMessage = res.FirstOrDefault();
+                    returnType.ReturnList = res.ToList();
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at SiteDetailRepository > Getsites");
-                return getSiteList();
             }
             return returnType;
         }
@@ -114,6 +113,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
+                parameters.Add("@SiteId", entity.SiteId);
                 parameters.Add("@SiteName", entity.SiteName);
                 parameters.Add("@SiteURL", entity.SiteURL);
                 parameters.Add("@SessionUser", entity.SessionUser);
@@ -134,41 +134,5 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
-
-        public ReturnType<SiteDetail> getSiteList()
-        {
-            return new ReturnType<SiteDetail>()
-            {
-                ReturnList = new List<SiteDetail>()
-                {
-                    new SiteDetail()
-                    {
-                        SiteId = 123,
-                        SiteName = "Name",
-                        SiteURL = "URL",
-                        SiteImg = "Imna",
-                        UpdatedBy = "Name"
-                    },
-                    new SiteDetail()
-                    {
-                        SiteId = 123,
-                        SiteName = "Name",
-                        SiteURL = "URL",
-                        SiteImg = "Imna",
-                        UpdatedBy = "Name"
-                    },
-                    new SiteDetail()
-                    {
-                        SiteId = 123,
-                        SiteName = "Name",
-                        SiteURL = "URL",
-                        SiteImg = "Imna",
-                        UpdatedBy = "Name"
-                    }
-                },
-                ReturnStatus = ReturnStatus.Success
-            };
-        }
-
     }
 }

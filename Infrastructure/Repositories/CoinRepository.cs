@@ -28,26 +28,28 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<ReturnType<CoinModel>> ListCoinsDetail(ListCoinsDetailQuery entity)
+        public async Task<ReturnType<CoinsRequestModel>> ListCoinsDetail(ListCoinsDetailQuery entity)
         {
-            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+            ReturnType<CoinsRequestModel> returnType = new ReturnType<CoinsRequestModel>();
             try
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<CoinModel>("USP_GetListCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<CoinsRequestModel>("USP_GetListCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnList = res.ToList();
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
-                return getCoinsList();
             }
             return returnType;
         }
@@ -58,19 +60,22 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@CoinType", entity.CoinType);
                 parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<CoinsRequestModel>("USP_GetListCoinsRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnList = res.ToList();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
-                return getCoinsRequestList();
+                _logger.LogError(ex, "Exception Occured at UserRepository > GetCoinsRequest");
             }
             return returnType;
         }
@@ -82,14 +87,15 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@Coin", entity.Coin);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", 1);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_InsertCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -110,14 +116,15 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@Coin", entity.Coin);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", 0);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -130,326 +137,5 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public ReturnType<CoinModel> getCoinsList()
-        {
-            return new ReturnType<CoinModel>()
-            {
-                ReturnList = new List<CoinModel>()
-                {
-                    new CoinModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coin = 1000,
-                        CoinColor = "green",
-                        CoinType = 1,
-                        Id = 1
-                    },
-                     new CoinModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coin = 1000,
-                        CoinColor = "green",
-                        CoinType = 1,
-                        Id = 1
-                    },
-                      new CoinModel()
-                    {
-                        UserId = 1234665,
-                        UserName = "Name34",
-                        Coin = 1000,
-                        CoinColor = "green",
-                        CoinType = 1,
-                        Id = 1
-                    },
-                       new CoinModel()
-                    {
-                        UserId = 12323445,
-                        UserName = "Name23",
-                        Coin = 1000,
-                        CoinColor = "green",
-                        CoinType = 1,
-                        Id = 1
-                    },
-                },
-                ReturnStatus = ReturnStatus.Success
-            };
-        }
-
-        public ReturnType<CoinsRequestModel> getCoinsRequestList()
-        {
-            return new ReturnType<CoinsRequestModel>()
-            {
-                ReturnList = new List<CoinsRequestModel>()
-                {
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 0,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    },
-                    new CoinsRequestModel()
-                    {
-                        UserId = 12345,
-                        UserName = "Name",
-                        Coins =20,
-                        CoinsRequestId =123,
-                        CoinType = 1,
-                        CoinTypeColor = "resd",
-                        UserNumber = "ASDFGHJ",
-                        UpdatedBy = "ah"
-                    }
-                },
-                ReturnStatus = ReturnStatus.Success
-            };
-        }
     }
 }

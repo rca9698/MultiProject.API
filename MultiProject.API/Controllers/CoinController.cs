@@ -47,9 +47,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("GetTransaction")]
-        public async Task<ReturnType<CoinModel>> GetTransaction(ListCoinsDetailQuery request)
+        public async Task<ReturnType<CoinsRequestModel>> GetTransaction(ListCoinsDetailQuery request)
         {
-            ReturnType<CoinModel> returnType = new ReturnType<CoinModel>();
+            ReturnType<CoinsRequestModel> returnType = new ReturnType<CoinsRequestModel>();
 
             if (_userId != request.SessionUser)
             {

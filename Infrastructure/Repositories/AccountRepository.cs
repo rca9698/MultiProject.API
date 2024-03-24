@@ -47,7 +47,6 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at AccountRepository > GetAccounts");
-                return AccountList();
             }
             return returnType;
         }
@@ -73,7 +72,6 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at AccountRepository > AccountRequestList");
-                return AccountList();
             }
             return returnType;
         }
@@ -160,124 +158,5 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-
-        public ReturnType<AccountDetail> AccountList()
-        {
-            return new ReturnType<AccountDetail>()
-            {
-                ReturnList = new List<AccountDetail>()
-                {
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                    new AccountDetail()
-                    {
-                        UserId = 111,
-                        AppName = "Az.com",
-                        AppNumber = 1234,
-                        UserName = "12345",
-                        UserNumber = "0987654321",
-                        AppIcon = "image"
-                    },
-                },
-                ReturnStatus = ReturnStatus.Success
-            };
-        }
     }
 }
