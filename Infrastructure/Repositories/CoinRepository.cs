@@ -90,6 +90,7 @@ namespace Infrastructure.Repositories
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@Coin", entity.Coins);
                 parameters.Add("@CoinType", 1);
+                parameters.Add("@CoinRequestID", entity.CoinRequestID);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
