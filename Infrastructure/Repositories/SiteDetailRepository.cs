@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Infrastructure.Repositories
 {
@@ -131,6 +132,55 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at SiteDetailRepository > UpdateSite");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<SiteDetail>> GetUserListSiteById(GetUserListSiteByIdQuery entity)
+        {
+            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@userId", entity.UserId);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<SiteDetail>("USP_GetUserSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > GetUserListSiteById");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<SiteDetail>> GetUserListSites()
+        {
+            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<SiteDetail>("USP_GetUserSites", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > GetUserListSites");
             }
             return returnType;
         }

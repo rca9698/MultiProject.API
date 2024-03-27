@@ -84,5 +84,43 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpGet]
+        [Route("GetUserListSiteById/{userId}")]
+        public async Task<ReturnType<SiteDetail>> GetUserListSiteById(long userId)
+        {
+            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            try
+            {
+                GetUserListSiteByIdQuery request = new GetUserListSiteByIdQuery()
+                {
+                    UserId = userId
+                };
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > GetUserListSiteById");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("GetUserListSites")]
+        public async Task<ReturnType<SiteDetail>> GetUserListSites()
+        {
+            ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
+            try
+            {
+                GetUserListSiteByIdQuery request = new GetUserListSiteByIdQuery();
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > GetUserListSites");
+            }
+            return returnType;
+        }
+
     }
 }
