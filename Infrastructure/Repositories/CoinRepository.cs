@@ -172,7 +172,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<ReturnType<bool>> DeleteCoinsRequest(DeleteCoinRequestCommand entity)
+        public async Task<ReturnType<bool>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try

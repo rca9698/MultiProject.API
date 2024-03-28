@@ -16,7 +16,7 @@ namespace Application.CoinsDetail.Common.Interface
         Task<ReturnType<CoinsRequestModel>> GetCoinsRequest(GetCoinsRequestQuery entity);
         Task<ReturnType<bool>> AddCoins(AddCoinsCommand entity);
         Task<ReturnType<bool>> AddCoinsRequest(InsertCoinRequestCommand entity);
-        Task<ReturnType<bool>> DeleteCoinsRequest(DeleteCoinRequestCommand entity);
+        Task<ReturnType<bool>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity);
         Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand request);
     }
 }

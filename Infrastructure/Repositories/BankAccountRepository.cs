@@ -98,6 +98,7 @@ namespace Infrastructure.Repositories
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnList = res.ToList();
+                    returnType.ReturnVal = res.FirstOrDefault(x => x.IsDefault == true);
                 }
             }
             catch (Exception ex)
