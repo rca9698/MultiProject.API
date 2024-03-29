@@ -33,6 +33,7 @@ namespace Infrastructure.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserName", entity.UserNumber);
                 parameters.Add("@Password", entity.Password);
+                parameters.Add("@OTP", entity.OTP);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
@@ -48,14 +49,6 @@ namespace Infrastructure.Repositories
             {
                 _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Login");
             }
-
-            returnType.ReturnVal = new UserDetail()
-            {
-                UserId=12345,
-                FirstName = "12345",
-                LastName = "qwert",
-                MobileNumber = "9876543210"
-            };
 
             return returnType;
         }

@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Infrastructure.Repositories
 {
@@ -54,6 +55,38 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public async Task<ReturnType<BankDetails>> SetDefaultBankAccount(long sessionUser, long BankDetailID)
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", sessionUser);
+                parameters.Add("@bankDetailID", BankDetailID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_UpdateDefaultBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal; 
+                }
+                GetBankAccountQuery entity = new GetBankAccountQuery()
+                {
+                    UserId = sessionUser,
+                };
+                returnType = await GetBankAccounts(entity);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetBankAccounts");
+            }
+            return returnType;
+        }
+
 
         public async Task<ReturnType<bool>> DeleteBankAccount(DeleteBankAccountCommand entity)
         {
