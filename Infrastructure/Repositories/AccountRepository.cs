@@ -113,6 +113,8 @@ namespace Infrastructure.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@SiteID", entity.SiteId);
+                parameters.Add("@UserName", entity.UserName);
+                parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
