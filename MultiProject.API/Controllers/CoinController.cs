@@ -116,9 +116,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("AddCoins")]
-        public async Task<ReturnType<bool>> AddCoins(AddCoinsCommand request)
+        public async Task<ReturnType<string>> AddCoins(AddCoinsCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
 
             if(_userId != request.SessionUser)
             {
@@ -139,9 +139,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("DeleteCoins")]
-        public async Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand request)
+        public async Task<ReturnType<string>> DeleteCoins(DeleteCoinsCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             if (_userId != request.SessionUser)
             {
                 returnType.ReturnMessage = "Not a valid session User!!!";

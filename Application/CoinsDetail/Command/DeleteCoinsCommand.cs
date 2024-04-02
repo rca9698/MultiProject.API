@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class DeleteCoinsCommand : IRequest<ReturnType<bool>>
+    public class DeleteCoinsCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }

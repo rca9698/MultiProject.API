@@ -81,9 +81,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
         
-        public async Task<ReturnType<bool>> AddCoins(AddCoinsCommand entity)
+        public async Task<ReturnType<string>> AddCoins(AddCoinsCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -93,13 +93,13 @@ namespace Infrastructure.Repositories
                 parameters.Add("@CoinRequestID", entity.CoinRequestID);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
-
+ 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<string>("USP_InsertUpdateCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    int returnVal = parameters.Get<int>("@ReturnVal");
-                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                     returnType.ReturnStatus = (ReturnStatus)1;
+                    returnType.ReturnVal = parameters.Get<int>("@ReturnVal").ToString();
                     returnType.ReturnMessage = res.FirstOrDefault();
                 }
             }
@@ -111,9 +111,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteCoins(DeleteCoinsCommand entity)
+        public async Task<ReturnType<string>> DeleteCoins(DeleteCoinsCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -127,8 +127,8 @@ namespace Infrastructure.Repositories
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<string>("USP_InsertUpdateCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    int returnVal = parameters.Get<int>("@ReturnVal");
-                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnStatus = (ReturnStatus)1;
+                    returnType.ReturnVal = parameters.Get<int>("@ReturnVal").ToString();
                     returnType.ReturnMessage = res.FirstOrDefault();
                 }
             }
