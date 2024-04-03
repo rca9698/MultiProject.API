@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Query
 {
-    public class AccountRequestListQuery : IRequest<ReturnType<AccountRequest>>
+    public class AccountRequestDetailsQuery : IRequest<ReturnType<AccountRequest>>
     {
-        public long UserId { get; set; }
-        public long SessionUser { get; set; }
+        public long AccountRequestId { get; set; }
     }
 }

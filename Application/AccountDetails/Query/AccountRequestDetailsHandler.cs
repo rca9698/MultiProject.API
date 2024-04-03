@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Query
 {
-    public class AccountRequestListHandler : IRequestHandler<AccountRequestListQuery, ReturnType<AccountRequest>>
+    public class AccountRequestDetailsHandler : IRequestHandler<AccountRequestDetailsQuery, ReturnType<AccountRequest>>
     {
         private readonly IAccountRepository _accountRepository;
-        public AccountRequestListHandler(IAccountRepository accountRepository)
+        public AccountRequestDetailsHandler(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
-        public Task<ReturnType<AccountRequest>> Handle(AccountRequestListQuery request, CancellationToken cancellationToken)
+        public Task<ReturnType<AccountRequest>> Handle(AccountRequestDetailsQuery request, CancellationToken cancellationToken)
         {
-            return _accountRepository.AccountRequestList(request);
+            return _accountRepository.AccountRequestDetails(request);
         }
     }
 }

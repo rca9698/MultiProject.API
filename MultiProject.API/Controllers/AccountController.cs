@@ -38,9 +38,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("AccountRequestList")]
-        public async Task<ReturnType<AccountDetail>> AccountRequestList(AccountRequestListQuery request)
+        public async Task<ReturnType<AccountRequest>> AccountRequestList(AccountRequestListQuery request)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -52,11 +52,31 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpGet]
+        [Route("AccountRequestDetails/{AccountRequestId}")]
+        public async Task<ReturnType<AccountRequest>> AccountRequestDetails(long AccountRequestId)
+        {
+            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
+            try
+            {
+                AccountRequestDetailsQuery request = new AccountRequestDetailsQuery()
+                {
+                    AccountRequestId = AccountRequestId
+                };
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > AccountRequestDetails");
+            }
+            return returnType;
+        }
+
         [HttpPost]
         [Route("RejectedRequestList")]
-        public async Task<ReturnType<AccountDetail>> RejectedRequestList(AccountRequestListQuery request)
+        public async Task<ReturnType<AccountRequest>> RejectedRequestList(AccountRequestListQuery request)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
             try
             {
                 returnType = await _mediator.Send(request);

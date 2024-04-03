@@ -51,22 +51,21 @@ namespace Infrastructure.Repositories
             return returnType;
         }
         
-        public async Task<ReturnType<AccountDetail>> AccountRequestList(AccountRequestListQuery entity)
+        public async Task<ReturnType<AccountRequest>> AccountRequestList(AccountRequestListQuery entity)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_AccountRequestList", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<AccountRequest>("USP_AccountRequestList", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnMessage = res.FirstOrDefault();
+                    returnType.ReturnList = res.ToList();
                 }
             }
             catch (Exception ex)
@@ -76,14 +75,40 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<AccountRequest>> AccountRequestDetails(AccountRequestDetailsQuery entity)
+        {
+            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@AccountRequestId", entity.AccountRequestId);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<AccountRequest>("USP_AccountRequestList", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountRepository > AccountRequestList");
+            }
+            return returnType;
+        }
+
+
+
         public async Task<ReturnType<bool>> AddAccount(AddAccountCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@SiteID", entity.SiteId);
+                parameters.Add("@AccountRequestId", entity.AccountRequestId);
                 parameters.Add("@UserName", entity.UserName);
                 parameters.Add("@Password", entity.Password);
                 parameters.Add("@SessionUser", entity.SessionUser);
