@@ -117,6 +117,9 @@ namespace Infrastructure.Repositories
                 parameters.Add("@SiteId", entity.SiteId);
                 parameters.Add("@SiteName", entity.SiteName);
                 parameters.Add("@SiteURL", entity.SiteURL);
+                parameters.Add("@DocumentDetailId", entity.DocumentDetailId);
+                parameters.Add("@FileExtenstion", entity.FileExtenstion);
+                parameters.Add("@ImageSize", entity.ImageSize);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
