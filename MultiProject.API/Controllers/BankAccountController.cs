@@ -41,11 +41,28 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpGet]
+        [Route("GetAdminBankAccounts")]
+        public async Task<ReturnType<BankDetails>> GetAdminBankAccounts()
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                GetAdminBankAccountCommand request = new GetAdminBankAccountCommand();
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > GetAdminBankAccounts");
+            }
+            return returnType;
+        }
+
         [HttpPost]
         [Route("AddBankAccount")]
-        public async Task<ReturnType<bool>> AddBankAccount(AddBankAccountCommand request)
+        public async Task<ReturnType<string>> AddBankAccount(AddBankAccountCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -75,9 +92,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("UpdateBankAccount")]
-        public async Task<ReturnType<bool>> AddBankAccount(UpdateBankAccountCommand request)
+        public async Task<ReturnType<string>> AddBankAccount(UpdateBankAccountCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -91,9 +108,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("DeleteBankAccount")]
-        public async Task<ReturnType<bool>> DeleteBankAccount(DeleteBankAccountCommand request)
+        public async Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);

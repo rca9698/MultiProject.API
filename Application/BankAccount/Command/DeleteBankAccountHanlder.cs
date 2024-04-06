@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Command
 {
-    public class DeleteBankAccountHanlder : IRequestHandler<DeleteBankAccountCommand, ReturnType<bool>>
+    public class DeleteBankAccountHanlder : IRequestHandler<DeleteBankAccountCommand, ReturnType<string>>
     {
         private readonly IBankAccountRepository _bankAccountRepository;
         public DeleteBankAccountHanlder(IBankAccountRepository bankAccountRepository)
         {
             _bankAccountRepository = bankAccountRepository;
         }
-        public Task<ReturnType<bool>> Handle(DeleteBankAccountCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(DeleteBankAccountCommand request, CancellationToken cancellationToken)
         {
             return _bankAccountRepository.DeleteBankAccount(request);
         }

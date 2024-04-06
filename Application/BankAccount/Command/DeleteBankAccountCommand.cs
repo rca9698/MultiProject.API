@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Command
 {
-    public class DeleteBankAccountCommand : IRequest<ReturnType<bool>>
+    public class DeleteBankAccountCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public long BankId { get; set; }

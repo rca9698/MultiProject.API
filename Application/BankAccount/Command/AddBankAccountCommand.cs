@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Command
 {
-    public class AddBankAccountCommand : IRequest<ReturnType<bool>>
+    public class AddBankAccountCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public string BankName { get; set; }

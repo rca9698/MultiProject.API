@@ -26,9 +26,9 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<ReturnType<bool>> AddBankAccount(AddBankAccountCommand entity)
+        public async Task<ReturnType<string>> AddBankAccount(AddBankAccountCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -76,6 +76,8 @@ namespace Infrastructure.Repositories
                 GetBankAccountQuery entity = new GetBankAccountQuery()
                 {
                     UserId = sessionUser,
+                    SessionUser = sessionUser,
+                    IsActive = 1
                 };
                 returnType = await GetBankAccounts(entity);
 
@@ -87,10 +89,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-
-        public async Task<ReturnType<bool>> DeleteBankAccount(DeleteBankAccountCommand entity)
+        public async Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -122,6 +123,8 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@IsActive", entity.IsActive);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
@@ -141,9 +144,33 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> updateBankAccount(UpdateBankAccountCommand entity)
+        public async Task<ReturnType<BankDetails>> GetAdminBankAccounts()
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<BankDetails>("USP_GetAdminBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetBankAccounts");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> updateBankAccount(UpdateBankAccountCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();

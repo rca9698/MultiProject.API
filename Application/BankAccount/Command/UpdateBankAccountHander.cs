@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Command
 {
-    public class UpdateBankAccountHander : IRequestHandler<UpdateBankAccountCommand, ReturnType<bool>>
+    public class UpdateBankAccountHander : IRequestHandler<UpdateBankAccountCommand, ReturnType<string>>
     {
         private readonly IBankAccountRepository _bankAccountRepository;
         public UpdateBankAccountHander(IBankAccountRepository bankAccountRepository)
@@ -17,7 +17,7 @@ namespace Application.BankAccount.Command
             _bankAccountRepository = bankAccountRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(UpdateBankAccountCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(UpdateBankAccountCommand request, CancellationToken cancellationToken)
         {
             return _bankAccountRepository.updateBankAccount(request);
         }
