@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class InsertCoinRequestCommand : IRequest<ReturnType<bool>>
+    public class InsertCoinRequestCommand : IRequest<ReturnType<string>>
     {
         public int Coins { get; set; }
         public string DocumentDetailId { get; set; }

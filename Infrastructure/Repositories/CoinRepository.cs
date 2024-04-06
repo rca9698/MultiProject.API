@@ -139,9 +139,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> AddCoinsRequest(InsertCoinRequestCommand entity)
+        public async Task<ReturnType<string>> AddCoinsRequest(InsertCoinRequestCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -150,7 +150,7 @@ namespace Infrastructure.Repositories
                 parameters.Add("@DocumentDetailId", entity.DocumentDetailId);
                 parameters.Add("@ImageSize", entity.ImageSize);
                 parameters.Add("@FileExtenstion", entity.FileExtenstion);
-                parameters.Add("@CoinType", 1);
+                parameters.Add("@CoinType", 1);//Add To wallet
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
@@ -172,15 +172,15 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<ReturnType<bool>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity)
+        public async Task<ReturnType<string>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@Coin", entity.Coins);
-                parameters.Add("@CoinType", 0);
+                parameters.Add("@CoinType", 0);//withdraw from wallet
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
@@ -196,6 +196,66 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoinsRequest");
+            }
+
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> AddCoinsToAccountRequest(AddCoinsToAccountRequestCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SiteId", entity.SiteId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", 0);//withdraw from wallet
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsToAccountRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > AddCoinsToAccountRequest");
+            }
+
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> WithDrawToAccountRequest(WithDrawToAccountCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SiteId", entity.SiteId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", 1);//Add To wallet
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsToAccountRequest", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > WithDrawToAccountRequest");
             }
 
             return returnType;

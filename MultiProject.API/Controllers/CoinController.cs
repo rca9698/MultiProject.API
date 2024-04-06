@@ -70,9 +70,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("AddCoinsRequest")]
-        public async Task<ReturnType<bool>> AddCoinsRequest(InsertCoinRequestCommand request)
+        public async Task<ReturnType<string>> AddCoinsRequest(InsertCoinRequestCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
 
             if (_userId != request.SessionUser)
             {
@@ -93,9 +93,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("WithDrawCoinsRequest")]
-        public async Task<ReturnType<bool>> WithDrawCoinsRequest(DeleteCoinRequestCommand request)
+        public async Task<ReturnType<string>> WithDrawCoinsRequest(DeleteCoinRequestCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
 
             if (_userId != request.SessionUser)
             {
@@ -158,5 +158,52 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("AddCoinsToAccountRequest")]
+        public async Task<ReturnType<string>> AddCoinsToAccountRequest(AddCoinsToAccountRequestCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > AddCoinsToAccountRequest");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("WithDrawToAccountRequest")]
+        public async Task<ReturnType<string>> WithDrawToAccountRequest(WithDrawToAccountCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > WithDrawToAccountRequest");
+            }
+            return returnType;
+        }
+
     }
 }

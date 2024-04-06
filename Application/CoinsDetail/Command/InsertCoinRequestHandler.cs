@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class InsertCoinRequestHandler : IRequestHandler<InsertCoinRequestCommand,ReturnType<bool>>
+    public class InsertCoinRequestHandler : IRequestHandler<InsertCoinRequestCommand,ReturnType<string>>
     {
         private readonly ICoinRepository _coinRepository;
         public InsertCoinRequestHandler(ICoinRepository coinRepository)
@@ -17,7 +17,7 @@ namespace Application.CoinsDetail.Command
             _coinRepository = coinRepository;
         }
 
-        public async Task<ReturnType<bool>> Handle(InsertCoinRequestCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(InsertCoinRequestCommand request, CancellationToken cancellationToken)
         {
             return await _coinRepository.AddCoinsRequest(request);
         }
