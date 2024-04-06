@@ -15,6 +15,7 @@ namespace Application.Common.Interface
     public interface ISiteDetailRepository
     {
         Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity);
+        Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery entity);
         Task<ReturnType<bool>> AddSite(AddSiteCommand entity);
         Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity);
         Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity);

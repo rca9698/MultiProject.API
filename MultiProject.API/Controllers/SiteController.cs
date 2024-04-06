@@ -38,6 +38,22 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
+        [Route("ViewThisSiteDetails")]
+        public async Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery request)
+        {
+            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > ViewThisSiteDetails");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
         [Route("AddSite")]
         public async Task<ReturnType<bool>> AddSite(AddSiteCommand request)
         {

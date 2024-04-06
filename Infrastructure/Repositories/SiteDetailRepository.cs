@@ -27,6 +27,32 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
+        public async Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery entity)
+        {
+            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SiteId", entity.SiteId);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<AccountDetail>("USP_GetAccountDetail", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteDetailRepository > Getsites");
+            }
+            return returnType;
+        }
+
         public async Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity)
         {
             ReturnType<SiteDetail> returnType = new ReturnType<SiteDetail>();
