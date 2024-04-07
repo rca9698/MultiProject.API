@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="LoginSgnup\Query\" />
+    <Folder Include="Passbook\Command\" />
   </ItemGroup>
 
 </Project>
