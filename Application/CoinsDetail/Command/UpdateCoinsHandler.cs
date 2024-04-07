@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class AddCoinsHandler : IRequestHandler<AddCoinsCommand,ReturnType<string>>
+    public class UpdateCoinsHandler : IRequestHandler<UpdateCoinsCommand,ReturnType<string>>
     {
         private readonly ICoinRepository _coinRepository;
-        public AddCoinsHandler(ICoinRepository coinRepository)
+        public UpdateCoinsHandler(ICoinRepository coinRepository)
         {
             _coinRepository = coinRepository;
         }
 
-        public async Task<ReturnType<string>> Handle(AddCoinsCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(UpdateCoinsCommand request, CancellationToken cancellationToken)
         {
-           return await _coinRepository.AddCoins(request);
+           return await _coinRepository.UpdateCoins(request);
         }
     }
 }

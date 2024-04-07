@@ -14,11 +14,11 @@ namespace Application.CoinsDetail.Common.Interface
     {
         Task<ReturnType<CoinsRequestModel>> ListCoinsDetail(ListCoinsDetailQuery entity);
         Task<ReturnType<CoinsRequestModel>> GetCoinsRequest(GetCoinsRequestQuery entity);
-        Task<ReturnType<string>> AddCoins(AddCoinsCommand entity);
+        Task<ReturnType<CoinsToAccountRequestModel>> GetCoinsToAccountRequest(GetCoinsToAccountRequestQuery entity);
+        Task<ReturnType<string>> UpdateCoins(UpdateCoinsCommand entity);
         Task<ReturnType<string>> AddCoinsRequest(InsertCoinRequestCommand entity);
         Task<ReturnType<string>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity);
-        Task<ReturnType<string>> DeleteCoins(DeleteCoinsCommand request);
-        Task<ReturnType<string>> AddCoinsToAccountRequest(AddCoinsToAccountRequestCommand entity);
-        Task<ReturnType<string>> WithDrawToAccountRequest(WithDrawToAccountCommand entity);
+        Task<ReturnType<string>> UpdateCoinsToAccountRequest(UpdateCoinsToAccountRequestCommand entity);
+        Task<ReturnType<string>> UpdateCoinsToAccount(UpdateCoinsToAccountCommand entity);
     }
 }

@@ -45,6 +45,33 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpGet]
+        [Route("GetCoinsToAccountRequest/{CoinType}/{SessionUser}")]
+        public async Task<ReturnType<CoinsToAccountRequestModel>> GetCoinsToAccountRequest(int CoinType,long SessionUser)
+        {
+            ReturnType<CoinsToAccountRequestModel> returnType = new ReturnType<CoinsToAccountRequestModel>();
+            GetCoinsToAccountRequestQuery request= new GetCoinsToAccountRequestQuery()
+            {
+                CoinType = CoinType,
+                SessionUser = SessionUser
+            };
+            if (_userId != SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > GetCoinsToAccountRequest");
+            }
+            return returnType;
+        }
+
         [HttpPost]
         [Route("GetTransaction")]
         public async Task<ReturnType<CoinsRequestModel>> GetTransaction(ListCoinsDetailQuery request)
@@ -115,8 +142,8 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddCoins")]
-        public async Task<ReturnType<string>> AddCoins(AddCoinsCommand request)
+        [Route("UpdateCoins")]
+        public async Task<ReturnType<string>> UpdateCoins(UpdateCoinsCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
@@ -132,36 +159,14 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at CoinController > AddCoins");
+                _logger.LogError(ex, "Exception Occured at CoinController > UpdateCoins");
             }
             return returnType;
         }
 
         [HttpPost]
-        [Route("DeleteCoins")]
-        public async Task<ReturnType<string>> DeleteCoins(DeleteCoinsCommand request)
-        {
-            ReturnType<string> returnType = new ReturnType<string>();
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
-
-            try
-            {
-                returnType = await _mediator.Send(request);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception Occured at CoinController > AddCoins");
-            }
-            return returnType;
-        }
-
-        [HttpPost]
-        [Route("AddCoinsToAccountRequest")]
-        public async Task<ReturnType<string>> AddCoinsToAccountRequest(AddCoinsToAccountRequestCommand request)
+        [Route("UpdateCoinsToAccountRequest")]
+        public async Task<ReturnType<string>> UpdateCoinsToAccountRequest(UpdateCoinsToAccountRequestCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
@@ -177,14 +182,14 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at CoinController > AddCoinsToAccountRequest");
+                _logger.LogError(ex, "Exception Occured at CoinController > UpdateCoinsToAccountRequest");
             }
             return returnType;
         }
 
         [HttpPost]
-        [Route("WithDrawToAccountRequest")]
-        public async Task<ReturnType<string>> WithDrawToAccountRequest(WithDrawToAccountCommand request)
+        [Route("UpdateCoinsToAccount")]
+        public async Task<ReturnType<string>> UpdateCoinsToAccount(UpdateCoinsToAccountCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
@@ -200,7 +205,7 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at CoinController > WithDrawToAccountRequest");
+                _logger.LogError(ex, "Exception Occured at CoinController > UpdateCoinsToAccount");
             }
             return returnType;
         }

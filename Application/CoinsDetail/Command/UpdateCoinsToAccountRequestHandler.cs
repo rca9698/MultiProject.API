@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class AddCoinsToAccountRequestHandler : IRequestHandler<AddCoinsToAccountRequestCommand, ReturnType<string>>
+    public class UpdateCoinsToAccountRequestHandler : IRequestHandler<UpdateCoinsToAccountRequestCommand, ReturnType<string>>
     {
         private readonly ICoinRepository _coinRepository;
-        public AddCoinsToAccountRequestHandler(ICoinRepository coinRepository)
+        public UpdateCoinsToAccountRequestHandler(ICoinRepository coinRepository)
         {
             _coinRepository = coinRepository;
         }
 
-        public async Task<ReturnType<string>> Handle(AddCoinsToAccountRequestCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(UpdateCoinsToAccountRequestCommand request, CancellationToken cancellationToken)
         {
-            return await _coinRepository.AddCoinsToAccountRequest(request);
+            return await _coinRepository.UpdateCoinsToAccountRequest(request);
         }
     }
 }

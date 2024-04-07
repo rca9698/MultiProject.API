@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class CoinsRequestModel
+    public class CoinsToAccountRequestModel
     {
-        public long UserId { get; set; }
         public string coinsRequestId { get; set; }
+        public long UserId { get; set; }
+        public long SiteId { get; set; }
+        public string SiteName { get; set; }
+        public string SiteURL { get; set; }
         public long Coins { get; set; }
         public long TotalCoins { get; set; }
         public int CoinType { get; set; }

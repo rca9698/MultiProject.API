@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class AddCoinsCommand : IRequest<ReturnType<string>>
+    public class UpdateCoinsCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }
-        public double Coins { get; set; }
-        public long CoinRequestID { get; set; }
+        public int Coins { get; set; }
+        public int CoinType { get; set; }
+        public string coinsRequestId { get; set; }
     }
 }
