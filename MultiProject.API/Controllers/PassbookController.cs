@@ -37,5 +37,21 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("GetPassbookHistoryById")]
+        public async Task<ReturnType<PassbookDetailModel>> GetPassbookHistoryById(GetPassbookHistoryIdQuery request)
+        {
+            ReturnType<PassbookDetailModel> returnType = new ReturnType<PassbookDetailModel>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at PassbookController > GetPassbookHistoryById");
+            }
+            return returnType;
+        }
     }
 }

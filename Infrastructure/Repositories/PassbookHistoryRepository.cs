@@ -24,6 +24,7 @@ namespace Infrastructure.Repositories
         {
             _logger = logger;
         }
+
         public async Task<ReturnType<PassbookDetailModel>> GetPassbookHistory(GetPassbookHistoryQuery entity)
         {
             ReturnType<PassbookDetailModel> returnType = new ReturnType<PassbookDetailModel>();
@@ -49,5 +50,32 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public async Task<ReturnType<PassbookDetailModel>> GetPassbookHistoryById(GetPassbookHistoryIdQuery entity)
+        {
+            ReturnType<PassbookDetailModel> returnType = new ReturnType<PassbookDetailModel>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@PassbookId", entity.PassbookId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<PassbookDetailModel>("USP_GetPassbookHistoryId", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountRepository > GetPassbookHistoryById");
+            }
+            return returnType;
+        }
+
     }
 }

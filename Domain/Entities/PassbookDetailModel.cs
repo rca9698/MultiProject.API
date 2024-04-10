@@ -10,6 +10,7 @@ namespace Domain.Entities
     {
         public long UserId { get; set; }
         public int SiteId { get; set; }
+        public int ActivityId { get; set; }
 
         public string PassbookHistoryId { get; set; }
         public string ActivityDescription { get; set; }
@@ -18,6 +19,9 @@ namespace Domain.Entities
         public string SiteUserName { get; set; }
         public string DocumentDetailId { get; set; }
         public string FileExtenstion { get; set; }
+        public string SitePassword { get; set; }
+        public int Coins { get; set; }
         public string CreatedDate { get; set; }
+        public string ApprovedDate { get; set; }
     }
 }

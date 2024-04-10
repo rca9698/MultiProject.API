@@ -12,5 +12,6 @@ namespace Application.Common.Interface
     public interface IPassbookHistoryRepository
     {
         Task<ReturnType<PassbookDetailModel>> GetPassbookHistory(GetPassbookHistoryQuery entity);
+        Task<ReturnType<PassbookDetailModel>> GetPassbookHistoryById(GetPassbookHistoryIdQuery entity);
     }
 }

@@ -100,8 +100,6 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-
-
         public async Task<ReturnType<bool>> AddAccount(AddAccountCommand entity)
         {
             ReturnType<bool> returnType = new ReturnType<bool>();
