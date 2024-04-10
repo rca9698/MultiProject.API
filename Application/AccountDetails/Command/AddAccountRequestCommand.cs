@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Command
 {
-    public class AddAccountRequestCommand : IRequest<ReturnType<bool>>
+    public class AddAccountRequestCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public int SiteId { get; set; }

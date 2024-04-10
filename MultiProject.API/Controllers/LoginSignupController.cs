@@ -38,9 +38,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("Signup")]
-        public async Task<ReturnType<bool>> Signup(AddAccountCommand request)
+        public async Task<ReturnType<string>> Signup(AddAccountCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);

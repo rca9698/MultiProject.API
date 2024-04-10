@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Site.Command
 {
-    public class DeleteSiteHandler : IRequestHandler<DeleteSiteCommand, ReturnType<bool>>
+    public class DeleteSiteHandler : IRequestHandler<DeleteSiteCommand, ReturnType<string>>
     {
         private readonly ISiteDetailRepository _siteDetailRepository;
         public DeleteSiteHandler(ISiteDetailRepository siteDetailRepository)
@@ -17,7 +17,7 @@ namespace Application.Site.Command
             _siteDetailRepository = siteDetailRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(DeleteSiteCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(DeleteSiteCommand request, CancellationToken cancellationToken)
         {
             return _siteDetailRepository.DeleteSite(request);
         }

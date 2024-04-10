@@ -53,9 +53,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
         
-        public async Task<ReturnType<bool>> AddUser(AddUserCommand entity)
+        public async Task<ReturnType<string>> AddUser(AddUserCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -83,9 +83,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteUser(DeleteUserCommand entity)
+        public async Task<ReturnType<string>> DeleteUser(DeleteUserCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -109,9 +109,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> UpdateUser(UpdateUserCommand entity)
+        public async Task<ReturnType<string>> UpdateUser(UpdateUserCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();

@@ -15,8 +15,9 @@ namespace Application.Common.Interface
         Task<ReturnType<AccountDetail>> GetAccounts(GetAccountsQuery entity);
         Task<ReturnType<AccountRequest>> AccountRequestList(AccountRequestListQuery entity);
         Task<ReturnType<AccountRequest>> AccountRequestDetails(AccountRequestDetailsQuery entity);
-        Task<ReturnType<bool>> AddAccount(AddAccountCommand entity);
-        Task<ReturnType<bool>> AddAccountRequest(AddAccountRequestCommand entity);
-        Task<ReturnType<bool>> DeleteAccount(DeleteAccountCommand entity);
+        Task<ReturnType<string>> AddAccount(AddAccountCommand entity);
+        Task<ReturnType<string>> AddAccountRequest(AddAccountRequestCommand entity);
+        Task<ReturnType<string>> DeleteAccount(DeleteAccountCommand entity);
+        Task<ReturnType<string>> DeleteAccountRequest(DeleteAccountRequestCommand entity);
     }
 }

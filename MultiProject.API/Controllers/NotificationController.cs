@@ -39,9 +39,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("InsertNotification")]
-        public async Task<ReturnType<bool>> InsertNotification(InsertNotificationCommand request)
+        public async Task<ReturnType<string>> InsertNotification(InsertNotificationCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -55,9 +55,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("DeleteNotification")]
-        public async Task<ReturnType<bool>> DeleteNotification(DeleteNotificationCommand request)
+        public async Task<ReturnType<string>> DeleteNotification(DeleteNotificationCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -71,9 +71,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("UpdateNotification")]
-        public async Task<ReturnType<bool>> UpdateNotification(UpdateNotificationCommand request)
+        public async Task<ReturnType<string>> UpdateNotification(UpdateNotificationCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);

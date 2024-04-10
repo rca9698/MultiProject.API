@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Notification.Command
 {
-    public class DeleteNotificationHandler : IRequestHandler<DeleteNotificationCommand, ReturnType<bool>>
+    public class DeleteNotificationHandler : IRequestHandler<DeleteNotificationCommand, ReturnType<string>>
     {
         private readonly INotificationRepository _notificationRepository;
         public DeleteNotificationHandler(INotificationRepository notificationRepository)
@@ -17,7 +17,7 @@ namespace Application.Notification.Command
             _notificationRepository = notificationRepository;
         }
 
-        public async Task<ReturnType<bool>> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
         {
              return await _notificationRepository.DeleteNotification(request);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Notification.Command
 {
-    public class UpdateNotificationCommand : IRequest<ReturnType<bool>>
+    public class UpdateNotificationCommand : IRequest<ReturnType<string>>
     {
         public long NotificationId { get; set; }
         public string NotificationDescription { get; set; }

@@ -53,9 +53,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> Signup(SignupCommand entity)
+        public async Task<ReturnType<string>> Signup(SignupCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Notification.Command
 {
-    public class InsertNotificationHandler : IRequestHandler<InsertNotificationCommand,ReturnType<bool>>
+    public class InsertNotificationHandler : IRequestHandler<InsertNotificationCommand,ReturnType<string>>
     {
         private readonly INotificationRepository _notificationRepository;
         public InsertNotificationHandler(INotificationRepository notificationRepository)
@@ -17,7 +17,7 @@ namespace Application.Notification.Command
             _notificationRepository = notificationRepository;
         }
 
-        public async Task<ReturnType<bool>> Handle(InsertNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(InsertNotificationCommand request, CancellationToken cancellationToken)
         {
              return await _notificationRepository.InsertNotification(request);
         }

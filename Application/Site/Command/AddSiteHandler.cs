@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Site.Command
 {
-    public class AddSiteHandler : IRequestHandler<AddSiteCommand,ReturnType<bool>>
+    public class AddSiteHandler : IRequestHandler<AddSiteCommand,ReturnType<string>>
     {
         private readonly ISiteDetailRepository _siteDetailRepository;
         public AddSiteHandler(ISiteDetailRepository siteDetailRepository)
@@ -17,7 +17,7 @@ namespace Application.Site.Command
             _siteDetailRepository = siteDetailRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(AddSiteCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(AddSiteCommand request, CancellationToken cancellationToken)
         {
             return _siteDetailRepository.AddSite(request);
         }

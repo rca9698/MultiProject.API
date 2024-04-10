@@ -16,9 +16,9 @@ namespace Application.Common.Interface
     {
         Task<ReturnType<SiteDetail>> Getsites(ListSitesCommand entity);
         Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery entity);
-        Task<ReturnType<bool>> AddSite(AddSiteCommand entity);
-        Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity);
-        Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity);
+        Task<ReturnType<string>> AddSite(AddSiteCommand entity);
+        Task<ReturnType<string>> DeleteSite(DeleteSiteCommand entity);
+        Task<ReturnType<string>> UpdateSite(UpdateSiteCommand entity);
         Task<ReturnType<SiteDetail>> GetUserListSiteById(GetUserListSiteByIdQuery entity);
         Task<ReturnType<SiteDetail>> GetUserListSites();
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.LoginSgnup.Command
 {
-    public class SignupCommand : IRequest<ReturnType<bool>>
+    public class SignupCommand : IRequest<ReturnType<string>>
     {
         public string UserName { get; set; }
         public string EmailId { get; set; }

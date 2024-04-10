@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Notification.Command
 {
-    public class DeleteNotificationCommand : IRequest<ReturnType<bool>>
+    public class DeleteNotificationCommand : IRequest<ReturnType<string>>
     {
         public long NotificationId { get; set; }
     }

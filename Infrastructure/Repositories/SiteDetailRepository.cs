@@ -78,9 +78,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> AddSite(AddSiteCommand entity)
+        public async Task<ReturnType<string>> AddSite(AddSiteCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -108,9 +108,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> DeleteSite(DeleteSiteCommand entity)
+        public async Task<ReturnType<string>> DeleteSite(DeleteSiteCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -134,9 +134,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> UpdateSite(UpdateSiteCommand entity)
+        public async Task<ReturnType<string>> UpdateSite(UpdateSiteCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();

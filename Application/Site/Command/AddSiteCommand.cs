@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Site.Command
 {
-    public class AddSiteCommand : IRequest<ReturnType<bool>>
+    public class AddSiteCommand : IRequest<ReturnType<string>>
     {
         public string SiteName { get; set; }
         public string SiteURL { get; set; }

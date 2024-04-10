@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Command
 {
-    public class AddAccountHandler : IRequestHandler<AddAccountCommand, ReturnType<string>>
+    public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequestCommand, ReturnType<string>>
     {
         private readonly IAccountRepository _accountRepository;
-        public AddAccountHandler(IAccountRepository accountRepository)
+        public DeleteAccountRequestHandler(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
-        public Task<ReturnType<string>> Handle(AddAccountCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(DeleteAccountRequestCommand request, CancellationToken cancellationToken)
         {
-            return _accountRepository.AddAccount(request);
+            return _accountRepository.DeleteAccountRequest(request);
         }
     }
 }

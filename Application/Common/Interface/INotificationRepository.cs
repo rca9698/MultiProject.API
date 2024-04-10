@@ -12,9 +12,9 @@ namespace Application.Common.Interface
 {
     public interface INotificationRepository
     {
-        Task<ReturnType<bool>> InsertNotification(InsertNotificationCommand entity);
-        Task<ReturnType<bool>> UpdateNotification(UpdateNotificationCommand entity);
-        Task<ReturnType<bool>> DeleteNotification(DeleteNotificationCommand entity);
+        Task<ReturnType<string>> InsertNotification(InsertNotificationCommand entity);
+        Task<ReturnType<string>> UpdateNotification(UpdateNotificationCommand entity);
+        Task<ReturnType<string>> DeleteNotification(DeleteNotificationCommand entity);
         Task<ReturnType<NotificationDetail>> GetNotifications(GetNotificationQuery entity);
     }
 }

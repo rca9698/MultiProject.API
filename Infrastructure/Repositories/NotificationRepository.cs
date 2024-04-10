@@ -28,9 +28,9 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<ReturnType<bool>> DeleteNotification(DeleteNotificationCommand entity)
+        public async Task<ReturnType<string>> DeleteNotification(DeleteNotificationCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -53,9 +53,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> InsertNotification(InsertNotificationCommand entity)
+        public async Task<ReturnType<string>> InsertNotification(InsertNotificationCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -78,9 +78,9 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<bool>> UpdateNotification(UpdateNotificationCommand entity)
+        public async Task<ReturnType<string>> UpdateNotification(UpdateNotificationCommand entity)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();

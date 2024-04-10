@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Command
 {
-    public class AddAccountRequestHandler :IRequestHandler<AddAccountRequestCommand,ReturnType<bool>>
+    public class AddAccountRequestHandler :IRequestHandler<AddAccountRequestCommand,ReturnType<string>>
     {
         private readonly IAccountRepository _userRepository;
         public AddAccountRequestHandler(IAccountRepository userRepository)
@@ -19,7 +19,7 @@ namespace Application.AccountDetails.Command
             _userRepository = userRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(AddAccountRequestCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(AddAccountRequestCommand request, CancellationToken cancellationToken)
         {
             return _userRepository.AddAccountRequest(request);
         }

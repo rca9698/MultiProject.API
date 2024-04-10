@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.UserDetails.Command
 {
-    public class DeleteUserCommand : IRequest<ReturnType<bool>>
+    public class DeleteUserCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }

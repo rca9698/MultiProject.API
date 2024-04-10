@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.UserDetails.Command
 {
-    public class UpdateUserCommand : IRequest<ReturnType<bool>>
+    public class UpdateUserCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
         public string FirstName { get; set; }

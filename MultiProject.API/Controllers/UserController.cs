@@ -38,9 +38,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("AddUser")]
-        public async Task<ReturnType<bool>> AddUser(AddUserCommand request)
+        public async Task<ReturnType<string>> AddUser(AddUserCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -54,9 +54,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("DeleteUser")]
-        public async Task<ReturnType<bool>> DeleteUser(DeleteUserCommand request)
+        public async Task<ReturnType<string>> DeleteUser(DeleteUserCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -70,9 +70,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("UpdateUser")]
-        public async Task<ReturnType<bool>> UpdateUser(UpdateUserCommand request)
+        public async Task<ReturnType<string>> UpdateUser(UpdateUserCommand request)
         {
-            ReturnType<bool> returnType = new ReturnType<bool>();
+            ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 returnType = await _mediator.Send(request);

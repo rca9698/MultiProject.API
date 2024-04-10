@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.LoginSgnup.Command
 {
-    public class SignupHandler : IRequestHandler<SignupCommand,ReturnType<bool>>
+    public class SignupHandler : IRequestHandler<SignupCommand,ReturnType<string>>
     {
         private readonly ILoginSignupRepository _loginSignupRepository;
         public SignupHandler(ILoginSignupRepository loginSignupRepository)
@@ -17,10 +17,10 @@ namespace Application.LoginSgnup.Command
             _loginSignupRepository = loginSignupRepository;
         }
 
-        public async Task<ReturnType<bool>> Handle(SignupCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(SignupCommand request, CancellationToken cancellationToken)
         {
 
-            ReturnType<bool> result = new ReturnType<bool>();
+            ReturnType<string> result = new ReturnType<string>();
             try
             {
                 return await _loginSignupRepository.Signup(request);

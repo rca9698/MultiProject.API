@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Site.Command
 {
-    public class DeleteSiteCommand : IRequest<ReturnType<bool>>
+    public class DeleteSiteCommand : IRequest<ReturnType<string>>
     {
         public int SiteId { get; set; }
         public long SessionUser { get; set; }

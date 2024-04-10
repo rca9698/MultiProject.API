@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.UserDetails.Command
 {
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand,ReturnType<bool>>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand,ReturnType<string>>
     {
         private readonly IUserRepository _userRepository;
         public DeleteUserHandler(IUserRepository userRepository)
@@ -17,7 +17,7 @@ namespace Application.UserDetails.Command
             _userRepository = userRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             return _userRepository.DeleteUser(request);
         }

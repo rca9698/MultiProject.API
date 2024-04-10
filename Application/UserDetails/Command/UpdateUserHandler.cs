@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.UserDetails.Command
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, ReturnType<bool>>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, ReturnType<string>>
     {
         private readonly IUserRepository _userRepository;
         public UpdateUserHandler(IUserRepository userRepository)
@@ -17,7 +17,7 @@ namespace Application.UserDetails.Command
             _userRepository = userRepository;
         }
 
-        public Task<ReturnType<bool>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             return _userRepository.UpdateUser(request);
         }
