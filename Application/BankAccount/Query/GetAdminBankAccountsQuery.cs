@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Query
 {
-    public class GetAdminBankAccountCommand : IRequest<ReturnType<BankDetails>>
+    public class GetAdminBankAccountsQuery : IRequest<ReturnType<BankDetails>>
     {
+        public long SessionUser { get; set; }
     }
 }

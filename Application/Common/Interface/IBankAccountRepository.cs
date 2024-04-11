@@ -13,10 +13,11 @@ namespace Application.Common.Interface
     public interface IBankAccountRepository
     {
         Task<ReturnType<BankDetails>> GetBankAccounts(GetBankAccountQuery entity);
-        Task<ReturnType<BankDetails>> GetAdminBankAccounts();
         Task<ReturnType<BankDetails>> SetDefaultBankAccount(long sessionUser, long BankDetailID);
         Task<ReturnType<string>> AddBankAccount(AddBankAccountCommand entity);
         Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand entity);
         Task<ReturnType<string>> updateBankAccount(UpdateBankAccountCommand entity);
+        Task<ReturnType<string>> AddUpdateAdminBankAccount(AddUpdateAdminBankAccountCommand entity);
+        Task<ReturnType<BankDetails>> GetAdminBankAccounts();
     }
 }

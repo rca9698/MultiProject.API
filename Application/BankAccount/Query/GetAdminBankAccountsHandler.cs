@@ -1,4 +1,5 @@
-﻿using Application.Common.Interface;
+﻿using Application.BankAccount.Command;
+using Application.Common.Interface;
 using Domain.Common;
 using Domain.Entities;
 using MediatR;
@@ -10,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Application.BankAccount.Query
 {
-    public class GetAdminBankAccountHandler : IRequestHandler<GetAdminBankAccountCommand,ReturnType<BankDetails>>
+    public class GetAdminBankAccountsHandler : IRequestHandler<GetAdminBankAccountsQuery,ReturnType<BankDetails>>
     {
         private readonly IBankAccountRepository _bankAccountRepository;
-        public GetAdminBankAccountHandler(IBankAccountRepository bankAccountRepository)
+        public GetAdminBankAccountsHandler(IBankAccountRepository bankAccountRepository)
         {
             _bankAccountRepository = bankAccountRepository;
         }
 
-        public Task<ReturnType<BankDetails>> Handle(GetAdminBankAccountCommand request, CancellationToken cancellationToken)
+        public Task<ReturnType<BankDetails>> Handle(GetAdminBankAccountsQuery request, CancellationToken cancellationToken)
         {
             return _bankAccountRepository.GetAdminBankAccounts();
         }
