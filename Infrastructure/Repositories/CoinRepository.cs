@@ -145,6 +145,7 @@ namespace Infrastructure.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@BankId", entity.BankId);
                 parameters.Add("@DocumentDetailId", entity.DocumentDetailId);
                 parameters.Add("@ImageSize", entity.ImageSize);
                 parameters.Add("@FileExtenstion", entity.FileExtenstion);
@@ -177,6 +178,7 @@ namespace Infrastructure.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@BankId", entity.BankId);
                 parameters.Add("@CoinType", 0);//withdraw from wallet
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);

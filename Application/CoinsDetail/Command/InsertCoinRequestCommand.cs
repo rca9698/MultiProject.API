@@ -18,5 +18,6 @@ namespace Application.CoinsDetail.Command
         public string FileExtenstion { get; set; }
         public long SessionUser { get; set; }
         public long UserId { get; set; }
+        public long BankId { get; set; }
     }
 }
