@@ -123,7 +123,7 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("DeleteAccountRequest")]
-        public async Task<ReturnType<string>> DeleteAccountRequest(DeleteAccountCommand request)
+        public async Task<ReturnType<string>> DeleteAccountRequest(DeleteAccountRequestCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try

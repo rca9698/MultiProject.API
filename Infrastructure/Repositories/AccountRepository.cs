@@ -162,15 +162,14 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@SiteID", entity.SiteID);
+                parameters.Add("@RequestId", entity.AccountrequestId);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_DeleteRequestAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();

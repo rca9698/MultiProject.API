@@ -105,7 +105,25 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-        [HttpGet]
+        [HttpPost]
+        [Route("DeleteAdminBankAccount")]
+        public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > DeleteAdminBankAccount");
+            }
+            return returnType;
+        }
+
+
+
+        [HttpPost]
         [Route("AddUpdateAdminBankAccount")]
         public async Task<ReturnType<string>> AddUpdateAdminBankAccount(AddUpdateAdminBankAccountCommand request)
         {

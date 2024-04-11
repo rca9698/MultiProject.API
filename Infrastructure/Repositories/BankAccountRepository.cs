@@ -95,7 +95,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@BankAccountId", entity.BankId);
+                parameters.Add("@BankId", entity.BankId);
                 parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
@@ -115,6 +115,34 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@BankId", entity.BankId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteAdminBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteBankAccount");
+            }
+            return returnType;
+        }
+
+
 
         public async Task<ReturnType<BankDetails>> GetBankAccounts(GetBankAccountQuery entity)
         {
@@ -180,7 +208,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@UpiId", entity.UpiId);
                 parameters.Add("@BankName", entity.BankName);
                 parameters.Add("@AccountHolderName", entity.AccountHolderName);
                 parameters.Add("@AccountNumber", entity.AccountNumber);
@@ -191,7 +219,7 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_InsertUpdateBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateAdminBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnMessage = res.FirstOrDefault();
@@ -218,7 +246,8 @@ namespace Infrastructure.Repositories
                     var res = await connection.QueryAsync<BankDetails>("USP_GetAdminBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnVal = res.FirstOrDefault();
+                    returnType.ReturnList = res.ToList();
+                    returnType.ReturnVal = res.FirstOrDefault(x=>x.IsDefault == true);
                 }
             }
             catch (Exception ex)

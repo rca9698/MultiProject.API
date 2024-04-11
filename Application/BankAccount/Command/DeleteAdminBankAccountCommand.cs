@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.AccountDetails.Command
+namespace Application.BankAccount.Command
 {
-    public class DeleteAccountRequestCommand : IRequest<ReturnType<string>>
+    public class DeleteAdminBankAccountCommand : IRequest<ReturnType<string>>
     {
-        public int AccountrequestId { get; set; }
+        public long BankId { get; set; }
         public long SessionUser { get; set; }
     }
 }
