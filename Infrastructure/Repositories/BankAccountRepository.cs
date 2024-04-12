@@ -89,6 +89,7 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+
         public async Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand entity)
         {
             ReturnType<string> returnType = new ReturnType<string>();
@@ -256,6 +257,35 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+
+
+        public async Task<ReturnType<string>> SetDefaultAdminBankAccount(long sessionUser, long BankDetailID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@sessionUser", sessionUser);
+                parameters.Add("@bankDetailID", BankDetailID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_UpdateDefaultAdminBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > SetDefaultAdminBankAccount");
+            }
+            return returnType;
+        }
+
 
     }
 }

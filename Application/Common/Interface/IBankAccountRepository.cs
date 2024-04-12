@@ -20,5 +20,6 @@ namespace Application.Common.Interface
         Task<ReturnType<string>> updateBankAccount(UpdateBankAccountCommand entity);
         Task<ReturnType<string>> AddUpdateAdminBankAccount(AddUpdateAdminBankAccountCommand entity);
         Task<ReturnType<BankDetails>> GetAdminBankAccounts();
+        Task<ReturnType<string>>  SetDefaultAdminBankAccount(long sessionUser, long BankDetailID);
     }
 }

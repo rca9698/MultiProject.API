@@ -155,6 +155,25 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
-    
+
+
+
+        [HttpGet]
+        [Route("SetDefaultAdminBankAccount/{sessionUser}/{BankDetailID}")]
+        public async Task<ReturnType<string>> SetDefaultAdminBankAccount(long sessionUser, long BankDetailID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.SetDefaultAdminBankAccount(sessionUser, BankDetailID);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > SetDefaultBankAccount");
+            }
+            return returnType;
+        }
+
+
     }
 }
