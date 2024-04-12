@@ -21,5 +21,14 @@ namespace Application.Common.Interface
         Task<ReturnType<string>> AddUpdateAdminBankAccount(AddUpdateAdminBankAccountCommand entity);
         Task<ReturnType<BankDetails>> GetAdminBankAccounts();
         Task<ReturnType<string>>  SetDefaultAdminBankAccount(long sessionUser, long BankDetailID);
+        
+        Task<ReturnType<string>> AddUpdateAdminUpiAccount(AddUpdateAdminUpiAccountCommand entity);
+        Task<ReturnType<BankDetails>> GetAdminUpiAccount();
+        Task<ReturnType<string>> SetDefaultAdminUpiAccount(long sessionUser, long UpiID);
+        Task<ReturnType<string>> DeleteAdminUpiAccount(long sessionUser, long UpiID);
+
+
+        Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser, string UserName);
+        Task<ReturnType<BankDetails>> GetAdminQRCode();
     }
 }

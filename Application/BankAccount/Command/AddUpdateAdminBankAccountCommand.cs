@@ -16,7 +16,6 @@ namespace Application.BankAccount.Command
         public string AccountHolderName { get; set; }
         public string AccountNumber { get; set; }
         public string IFSCCode { get; set; }
-        public string UpiId { get; set; }
         public long SessionUser { get; set; }
     }
 }

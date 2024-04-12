@@ -117,34 +117,6 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand entity)
-        {
-            ReturnType<string> returnType = new ReturnType<string>();
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@BankId", entity.BankId);
-                parameters.Add("@SessionUser", entity.SessionUser);
-                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
-
-                using (var connection = CreateConnection())
-                {
-                    connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_DeleteAdminBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    int returnVal = parameters.Get<int>("@ReturnVal");
-                    returnType.ReturnStatus = (ReturnStatus)returnVal;
-                    returnType.ReturnMessage = res.FirstOrDefault();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteBankAccount");
-            }
-            return returnType;
-        }
-
-
-
         public async Task<ReturnType<BankDetails>> GetBankAccounts(GetBankAccountQuery entity)
         {
             ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
@@ -203,13 +175,14 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+
+
         public async Task<ReturnType<string>> AddUpdateAdminBankAccount(AddUpdateAdminBankAccountCommand entity)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@UpiId", entity.UpiId);
                 parameters.Add("@BankName", entity.BankName);
                 parameters.Add("@AccountHolderName", entity.AccountHolderName);
                 parameters.Add("@AccountNumber", entity.AccountNumber);
@@ -258,8 +231,6 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-
-
         public async Task<ReturnType<string>> SetDefaultAdminBankAccount(long sessionUser, long BankDetailID)
         {
             ReturnType<string> returnType = new ReturnType<string>();
@@ -273,7 +244,7 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_UpdateDefaultAdminBankAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<string>("USP_UpdateDefaultAdminUpi", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                 }
@@ -286,6 +257,191 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@BankId", entity.BankId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteAdminBankAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteBankAccount");
+            }
+            return returnType;
+        }
+
+
+
+        public async Task<ReturnType<string>> AddUpdateAdminUpiAccount(AddUpdateAdminUpiAccountCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UpiDetailID", entity.UpiDetailID);
+                parameters.Add("@UpiId", entity.UpiId);
+                parameters.Add("@UserName", entity.UserName);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateAdminUpiAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > AddUpdateAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<BankDetails>> GetAdminUpiAccount()
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<BankDetails>("USP_GetAdminUpiAccounts", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                    returnType.ReturnVal = res.FirstOrDefault(x => x.IsDefault == true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetAdminUpiAccounts");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> SetDefaultAdminUpiAccount(long sessionUser, long UpiID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@sessionUser", sessionUser);
+                parameters.Add("@UpiID", UpiID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_UpdateDefaultAdminUpiAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > SetDefaultAdminBankAccount");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> DeleteAdminUpiAccount(long sessionUser, long UpiID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@sessionUser", sessionUser);
+                parameters.Add("@UpiID", UpiID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteAdminUpiAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+
+
+        public async Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser,string UserName)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserName", UserName);
+                parameters.Add("@SessionUser", SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateAdminQRCode", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > AddUpdateAdminQRCode");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<BankDetails>> GetAdminQRCode()
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<BankDetails>("USP_GetAdminQRCodes", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                    returnType.ReturnVal = res.FirstOrDefault(x => x.IsDefault == true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetAdminQRCode");
+            }
+            return returnType;
+        }
 
     }
 }

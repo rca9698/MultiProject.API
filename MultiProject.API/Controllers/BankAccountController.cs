@@ -105,6 +105,9 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+
+
+
         [HttpPost]
         [Route("DeleteAdminBankAccount")]
         public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand request)
@@ -120,8 +123,6 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
-
-
 
         [HttpPost]
         [Route("AddUpdateAdminBankAccount")]
@@ -156,8 +157,6 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-
-
         [HttpGet]
         [Route("SetDefaultAdminBankAccount/{sessionUser}/{BankDetailID}")]
         public async Task<ReturnType<string>> SetDefaultAdminBankAccount(long sessionUser, long BankDetailID)
@@ -170,6 +169,106 @@ namespace MultiProject.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at BankAccountController > SetDefaultBankAccount");
+            }
+            return returnType;
+        }
+
+
+        [HttpPost]
+        [Route("AddUpdateAdminUpiAccount")]
+        public async Task<ReturnType<string>> AddUpdateAdminUpiAccount(AddUpdateAdminUpiAccountCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.AddUpdateAdminUpiAccount(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > AddUpdateAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("GetAdminUpiAccount")]
+        public async Task<ReturnType<BankDetails>> GetAdminUpiAccount()
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                returnType = await _bankAccountRepository.GetAdminUpiAccount();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > GetAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("SetDefaultAdminUpiAccount/{sessionUser}/{UpiID}")]
+        public async Task<ReturnType<string>> SetDefaultAdminUpiAccount(long sessionUser, long UpiID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.SetDefaultAdminUpiAccount(sessionUser, UpiID);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > SetDefaultAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("DeleteAdminUpiAccount")]
+        public async Task<ReturnType<string>> DeleteAdminUpiAccount(long sessionUser, long UpiId)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.DeleteAdminUpiAccount(sessionUser, UpiId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > DeleteAdminUpiAccount");
+            }
+            return returnType;
+        }
+
+
+
+
+        [HttpGet]
+        [Route("AddUpdateAdminQRCode/{SessionUser}/{UserName}")]
+        public async Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser,string UserName)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.AddUpdateAdminQRCode(SessionUser,UserName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > AddUpdateAdminQRCode");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("GetAdminQRCode")]
+        public async Task<ReturnType<BankDetails>> GetAdminQRCode()
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                returnType = await _bankAccountRepository.GetAdminQRCode();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > GetAdminQRCode");
             }
             return returnType;
         }
