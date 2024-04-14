@@ -354,6 +354,7 @@ namespace Infrastructure.Repositories
                     var res = await connection.QueryAsync<string>("USP_UpdateDefaultAdminUpi", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
                 }
 
             }

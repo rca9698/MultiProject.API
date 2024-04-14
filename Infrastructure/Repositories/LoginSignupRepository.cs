@@ -42,6 +42,7 @@ namespace Infrastructure.Repositories
                     var res = await connection.QueryAsync<UserDetail>("USP_ValidateLogin", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = returnVal == 1 ? "LOGIN SUCCESS!" : "INVALID CRED!!";
                     returnType.ReturnVal = res.FirstOrDefault();
                 }
             }
