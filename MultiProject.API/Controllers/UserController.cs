@@ -83,5 +83,22 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("GetUserById")]
+        public async Task<ReturnType<UserDetail>> GetUserById(GetUserByIdQuery request)
+        {
+            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserController > GetUsers");
+            }
+            return returnType;
+        }
+
     }
 }

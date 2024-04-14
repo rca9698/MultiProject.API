@@ -139,5 +139,32 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public async Task<ReturnType<UserDetail>> GetUserById(GetUserByIdQuery entity)
+        {
+            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<UserDetail>("USP_GetUserById", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > GetUsers");
+            }
+            return returnType;
+        }
+
     }
 }

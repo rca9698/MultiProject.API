@@ -16,5 +16,6 @@ namespace Application.Common.Interface
         Task<ReturnType<string>> AddUser(AddUserCommand entity);
         Task<ReturnType<string>> DeleteUser(DeleteUserCommand entity);
         Task<ReturnType<string>> UpdateUser(UpdateUserCommand entity);
+        Task<ReturnType<UserDetail>> GetUserById(GetUserByIdQuery entity);
     }
 }
