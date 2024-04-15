@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Application.CoinsDetail.Command
 {
-    public class DeleteCoinRequestHandler : IRequestHandler<DeleteCoinRequestCommand, ReturnType<string>>
+    public class WithdrawCoinRequestHandler : IRequestHandler<WithdrawCoinRequestCommand, ReturnType<string>>
     {
         private readonly ICoinRepository _coinRepository;
-        public DeleteCoinRequestHandler(ICoinRepository coinRepository)
+        public WithdrawCoinRequestHandler(ICoinRepository coinRepository)
         {
             _coinRepository = coinRepository;
         }
 
-        public async Task<ReturnType<string>> Handle(DeleteCoinRequestCommand request, CancellationToken cancellationToken)
+        public async Task<ReturnType<string>> Handle(WithdrawCoinRequestCommand request, CancellationToken cancellationToken)
         {
             return await _coinRepository.WithDrawCoinsRequest(request);
         }

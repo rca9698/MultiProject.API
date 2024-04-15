@@ -170,7 +170,7 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
-        public async Task<ReturnType<string>> WithDrawCoinsRequest(DeleteCoinRequestCommand entity)
+        public async Task<ReturnType<string>> WithDrawCoinsRequest(WithdrawCoinRequestCommand entity)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
@@ -261,5 +261,58 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<string>> DeleteAccountRequestCoins(DeleteAccountRequestCoinsCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@CoinRequestId", entity.CoinRequestId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteAccountRequestCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteAccountRequestCoins");
+            }
+
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> DeleteRequestCoins(DeleteRequestCoinsCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@CoinRequestId", entity.CoinRequestId);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteRequestCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoinsRequest");
+            }
+
+            return returnType;
+        }
     }
 }

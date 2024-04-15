@@ -1,4 +1,5 @@
 ﻿using Application.CoinsDetail.Command;
+using Application.CoinsDetail.Common.Interface;
 using Application.CoinsDetail.Query;
 using Domain.Common;
 using Domain.Entities;
@@ -16,10 +17,12 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
-        public CoinController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        private readonly ICoinRepository _coinRepository;
+        public CoinController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor, ICoinRepository coinRepository) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
+            _coinRepository = coinRepository; 
         }
 
         [HttpPost]
@@ -120,7 +123,7 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("WithDrawCoinsRequest")]
-        public async Task<ReturnType<string>> WithDrawCoinsRequest(DeleteCoinRequestCommand request)
+        public async Task<ReturnType<string>> WithDrawCoinsRequest(WithdrawCoinRequestCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
@@ -209,6 +212,53 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("DeleteAccountRequestCoins")]
+        public async Task<ReturnType<string>> DeleteAccountRequestCoins(DeleteAccountRequestCoinsCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > DeleteAccountRequestCoins");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("DeleteRequestCoins")]
+        public async Task<ReturnType<string>> DeleteRequestCoins(DeleteRequestCoinsCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > DeleteRequestCoins");
+            }
+            return returnType;
+        }
+
 
     }
 }
