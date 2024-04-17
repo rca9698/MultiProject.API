@@ -25,6 +25,7 @@ namespace MultiProject.API
             services.AddTransient<ISiteDetailRepository, SiteDetailRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPassbookHistoryRepository, PassbookHistoryRepository>();
+            services.AddTransient<IHomeRepository, HomeRepository>();
         }
     }
 }

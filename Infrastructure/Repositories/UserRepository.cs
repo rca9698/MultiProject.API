@@ -89,7 +89,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@FirstName", entity.UserId);
+                parameters.Add("@UserId", entity.UserId);
                 parameters.Add("@SessionUser", entity.SessionUser);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
