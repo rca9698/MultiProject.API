@@ -12,6 +12,7 @@ namespace Application.Passbook.Query
     public class GetPassbookHistoryQuery : IRequest<ReturnType<PassbookDetailModel>>
     {
         public long UserId { get; set; }
+        public int SiteId { get; set; }
         public long SessionUser { get; set; }
     }
 }
