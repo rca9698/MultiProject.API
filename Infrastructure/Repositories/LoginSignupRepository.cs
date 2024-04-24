@@ -13,10 +13,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Infrastructure.Repositories
 {
-    public class LoginSignupRepository :DbConnector, ILoginSignupRepository
+    public class LoginSignupRepository : DbConnector, ILoginSignupRepository
     {
         public readonly ILogger<LoginSignupRepository> _logger;
         public LoginSignupRepository(IConfiguration configuration, ILogger<LoginSignupRepository> logger) 
@@ -76,6 +77,31 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Signup");
+            }
+            return returnType;
+        }
+
+        public async Task<ReturnType<Otp_Login_Model>> Generate_Otp(string MobileNumber)
+        {
+            ReturnType<Otp_Login_Model> returnType = new ReturnType<Otp_Login_Model>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@MobileNumber", MobileNumber);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<Otp_Login_Model>("USP_Generate_Otp", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnVal = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at LoginSignupRepository > Generate_Otp");
             }
             return returnType;
         }

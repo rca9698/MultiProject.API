@@ -223,7 +223,7 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpGet]
-        [Route("DeleteAdminUpiAccount")]
+        [Route("DeleteAdminUpiAccount/{sessionUser}/{UpiId}")]
         public async Task<ReturnType<string>> DeleteAdminUpiAccount(long sessionUser, long UpiId)
         {
             ReturnType<string> returnType = new ReturnType<string>();
