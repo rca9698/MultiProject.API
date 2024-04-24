@@ -16,10 +16,11 @@ namespace MultiProject.API.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<LoginSignupController> _logger;
         private readonly ILoginSignupRepository _loginSignupRepository;
-        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor) //: base(httpContextAccessor)
+        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor, ILoginSignupRepository loginSignupRepository) //: base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
+            _loginSignupRepository = loginSignupRepository;
         }
 
         [HttpPost]

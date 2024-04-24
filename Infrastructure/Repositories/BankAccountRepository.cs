@@ -344,7 +344,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@sessionUser", sessionUser);
+                parameters.Add("@SessionUser", sessionUser);
                 parameters.Add("@UpiID", UpiID);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
@@ -371,7 +371,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@sessionUser", sessionUser);
+                parameters.Add("@SessionUser", sessionUser);
                 parameters.Add("@UpiID", UpiID);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
