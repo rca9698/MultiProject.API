@@ -124,8 +124,7 @@ namespace Infrastructure.Repositories
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<string>("USP_InsertUpdateCoins", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                     returnType.ReturnStatus = (ReturnStatus)1;
-                    returnType.ReturnVal = parameters.Get<int>("@ReturnVal").ToString();
+                    returnType.ReturnStatus = parameters.Get<ReturnStatus>("@ReturnVal");
                     returnType.ReturnMessage = res.FirstOrDefault();
                 }
             }
@@ -248,8 +247,7 @@ namespace Infrastructure.Repositories
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsToAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    returnType.ReturnStatus = (ReturnStatus)1;
-                    returnType.ReturnVal = parameters.Get<int>("@ReturnVal").ToString();
+                    returnType.ReturnStatus = parameters.Get<ReturnStatus>("@ReturnVal");
                     returnType.ReturnMessage = res.FirstOrDefault();
                 }
             }
