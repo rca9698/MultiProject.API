@@ -59,9 +59,6 @@ namespace Infrastructure.Repositories
             try
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@FirstName", entity.FirstName);
-                parameters.Add("@LastName", entity.LastName);
-                parameters.Add("@EmailId", entity.EmailId);
                 parameters.Add("@Password", entity.Password);
                 parameters.Add("@MobileNumber", entity.MobileNumber);
                 parameters.Add("@SessionUser", entity.SessionUser);
@@ -116,9 +113,6 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", entity.UserId);
-                parameters.Add("@FirstName", entity.FirstName);
-                parameters.Add("@LastName", entity.LastName);
-                parameters.Add("@EmailId", entity.EmailId);
                 parameters.Add("@Password", entity.Password);
                 parameters.Add("@MobileNumber", entity.MobileNumber);
                 parameters.Add("@SessionUser", entity.SessionUser);
