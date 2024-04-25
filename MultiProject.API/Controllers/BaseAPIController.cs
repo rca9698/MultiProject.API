@@ -12,9 +12,9 @@ namespace MultiProject.API.Controllers
         protected readonly long _otp;
         public BaseAPIController(IHttpContextAccessor httpContextAccessor)
         {
-           var user = httpContextAccessor.HttpContext.User;
-            _userId = Convert.ToInt64(user.Claims.FirstOrDefault(x => x.Type == "UserId").Value);
-            _otp = Convert.ToInt64(user.Claims.FirstOrDefault(x => x.Type == "otp").Value);
+           var user = httpContextAccessor.HttpContext?.User;
+            _userId = Convert.ToInt64(user?.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            _otp = Convert.ToInt64(user?.Claims.FirstOrDefault(x => x.Type == "otp")?.Value);
         }
     }
 }
