@@ -17,7 +17,7 @@ namespace MultiProject.API.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<BankAccountController> _logger;
         private readonly IBankAccountRepository _bankAccountRepository;
-        public BankAccountController(IMediator mediator, ILogger<BankAccountController> logger, IHttpContextAccessor httpContextAccessor, IBankAccountRepository bankAccountRepository) 
+        public BankAccountController(IMediator mediator, ILogger<BankAccountController> logger, IHttpContextAccessor httpContextAccessor, IBankAccountRepository bankAccountRepository)
             : base(httpContextAccessor)
         {
             _mediator = mediator;
@@ -59,7 +59,7 @@ namespace MultiProject.API.Controllers
 
         [HttpGet]
         [Route("SetDefaultBankAccount/{sessionUser}/{BankDetailID}")]
-        public async Task<ReturnType<BankDetails>> SetDefaultBankAccount(long sessionUser,long BankDetailID)
+        public async Task<ReturnType<BankDetails>> SetDefaultBankAccount(long sessionUser, long BankDetailID)
         {
             ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
             try
@@ -69,6 +69,22 @@ namespace MultiProject.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception Occured at BankAccountController > SetDefaultBankAccount");
+            }
+            return returnType;
+        }
+
+        [HttpGet]
+        [Route("SetDefaultBankAccount/{BankDetailID}")]
+        public async Task<ReturnType<BankDetails>> GetBankAccountById(long BankDetailID)
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                returnType = await _bankAccountRepository.GetBankAccountById(BankDetailID);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > GetBankAccountById > " + BankDetailID);
             }
             return returnType;
         }
@@ -243,12 +259,12 @@ namespace MultiProject.API.Controllers
 
         [HttpGet]
         [Route("AddUpdateAdminQRCode/{SessionUser}/{UserName}")]
-        public async Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser,string UserName)
+        public async Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser, string UserName)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
             {
-                returnType = await _bankAccountRepository.AddUpdateAdminQRCode(SessionUser,UserName);
+                returnType = await _bankAccountRepository.AddUpdateAdminQRCode(SessionUser, UserName);
             }
             catch (Exception ex)
             {

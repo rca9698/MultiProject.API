@@ -89,6 +89,29 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<BankDetails>> GetBankAccountById(long BankDetailID)
+        {
+            ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@bankDetailID", BankDetailID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_GetBankAccountById", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal; 
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > GetBankAccountById");
+            }
+            return returnType;
+        }
 
         public async Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand entity)
         {

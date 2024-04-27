@@ -14,6 +14,7 @@ namespace Application.Common.Interface
     {
         Task<ReturnType<BankDetails>> GetBankAccounts(GetBankAccountQuery entity);
         Task<ReturnType<BankDetails>> SetDefaultBankAccount(long sessionUser, long BankDetailID);
+        Task<ReturnType<BankDetails>> GetBankAccountById(long BankDetailID);
         Task<ReturnType<string>> AddBankAccount(AddBankAccountCommand entity);
         Task<ReturnType<string>> DeleteBankAccount(DeleteBankAccountCommand entity);
         Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand entity);
