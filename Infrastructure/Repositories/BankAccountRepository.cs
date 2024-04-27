@@ -101,9 +101,10 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<string>("USP_GetBankAccountById", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<BankDetails>("USP_GetBankAccountById", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal; 
+                    returnType.ReturnVal = res.FirstOrDefault(); 
                 }
             }
             catch (Exception ex)
