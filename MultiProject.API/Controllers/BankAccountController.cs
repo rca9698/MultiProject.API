@@ -74,7 +74,7 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpGet]
-        [Route("SetDefaultBankAccount/{BankDetailID}")]
+        [Route("GetBankAccountById/{BankDetailID}")]
         public async Task<ReturnType<BankDetails>> GetBankAccountById(long BankDetailID)
         {
             ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();
