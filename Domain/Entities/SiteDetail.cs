@@ -12,6 +12,7 @@ namespace Domain.Entities
         public string SiteName { get; set; }
         public string SiteURL { get; set; }
         public string UserId { get; set; }
+        public long AccountId { get; set; }
         public string UserNumber { get; set; }
         public string UserName { get; set; }
         public string DocumentDetailId { get; set; }

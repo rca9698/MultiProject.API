@@ -168,6 +168,30 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
+        [Route("DeleteCoins")]
+        public async Task<ReturnType<string>> DeleteCoins(DeleteCoinsCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > DeleteCoins");
+            }
+            return returnType;
+        }
+
+
+        [HttpPost]
         [Route("UpdateCoinsToAccountRequest")]
         public async Task<ReturnType<string>> UpdateCoinsToAccountRequest(UpdateCoinsToAccountRequestCommand request)
         {
