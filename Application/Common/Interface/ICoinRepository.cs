@@ -25,5 +25,8 @@ namespace Application.CoinsDetail.Common.Interface
         Task<ReturnType<string>> DeleteAccountRequestCoins(DeleteAccountRequestCoinsCommand entity);
         Task<ReturnType<string>> DeleteRequestCoins(DeleteRequestCoinsCommand entity);
 
+        Task<ReturnType<string>> DepositeCoinsByUserid(DepositeCoinsByUseridCommand entity);
+        Task<ReturnType<string>> WithdrawCoinsByuserId(WithdrawCoinsByuserIdCommand entity);
+
     }
 }

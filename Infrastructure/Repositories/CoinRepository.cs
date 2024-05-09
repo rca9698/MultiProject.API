@@ -49,7 +49,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > ListCoinsDetail");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > ListCoinsDetail");
             }
             return returnType;
         }
@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > GetCoinsRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > GetCoinsRequest");
             }
             return returnType;
         }
@@ -102,7 +102,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > GetCoinsToAccountRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > GetCoinsToAccountRequest");
             }
             return returnType;
         }
@@ -130,7 +130,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > InsertCoins");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > InsertCoins");
             }
 
             return returnType;
@@ -162,7 +162,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > InsertCoins");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > InsertCoins");
             }
 
             return returnType;
@@ -196,7 +196,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > AddCoinsRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > AddCoinsRequest");
             }
 
             return returnType;
@@ -226,7 +226,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoinsRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > DeleteCoinsRequest");
             }
 
             return returnType;
@@ -257,7 +257,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > AddCoinsToAccountRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > AddCoinsToAccountRequest");
             }
 
             return returnType;
@@ -287,7 +287,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > InsertCoins");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > InsertCoins");
             }
 
             return returnType;
@@ -314,7 +314,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteAccountRequestCoins");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > DeleteAccountRequestCoins");
             }
 
             return returnType;
@@ -341,10 +341,67 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at UserRepository > DeleteCoinsRequest");
+                _logger.LogError(ex, "Exception Occured at CoinRepository > DeleteCoinsRequest");
             }
 
             return returnType;
         }
+
+        public async Task<ReturnType<string>> DepositeCoinsByUserid(DepositeCoinsByUseridCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", entity.CoinType);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsByUserId", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    returnType.ReturnStatus = parameters.Get<ReturnStatus>("@ReturnVal");
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinRepository > DepositeCoinsByUserid");
+            }
+
+            return returnType;
+        }
+
+        public async Task<ReturnType<string>> WithdrawCoinsByuserId(WithdrawCoinsByuserIdCommand entity)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", entity.UserId);
+                parameters.Add("@Coin", entity.Coins);
+                parameters.Add("@CoinType", entity.CoinType);
+                parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateCoinsByUserId", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    returnType.ReturnStatus = parameters.Get<ReturnStatus>("@ReturnVal");
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinRepository > WithdrawCoinsByuserId");
+            }
+
+            return returnType;
+        }
+
     }
 }

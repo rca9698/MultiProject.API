@@ -284,5 +284,54 @@ namespace MultiProject.API.Controllers
         }
 
 
+
+        [HttpPost]
+        [Route("DepositeCoinsByUserid")]
+        public async Task<ReturnType<string>> DepositeCoinsByUserid(DepositeCoinsByUseridCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _coinRepository.DepositeCoinsByUserid(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > UpdateCoins");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("WithdrawCoinsByuserId")]
+        public async Task<ReturnType<string>> WithdrawCoinsByuserId(WithdrawCoinsByuserIdCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _coinRepository.WithdrawCoinsByuserId(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > DeleteCoins");
+            }
+            return returnType;
+        }
+
+
+
     }
 }
