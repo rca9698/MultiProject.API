@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Site.Query
+namespace Application.AccountDetails.Query
 {
-    public class ViewThisSiteDetailsQuery : IRequest<ReturnType<IDDetail>>
+    public class IDRequestDetailsQuery : IRequest<ReturnType<IDRequest>>
     {
-        public long UserId { get; set; }
-        public long SiteId { get; set; }
+        public long AccountRequestId { get; set; }
     }
 }

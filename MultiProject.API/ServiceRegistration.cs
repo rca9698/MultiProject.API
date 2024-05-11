@@ -16,7 +16,7 @@ namespace MultiProject.API
             services.AddScoped<ValidateSessionFilter>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IAccountRepository,AccountRepository>();
+            services.AddTransient<IIDRepository,IDRepository>();
             services.AddTransient<IBankAccountRepository, BankAccountRepository>();
             services.AddTransient<ICoinRepository, CoinRepository>();
             services.AddTransient<IDropDownRepository, DropDownRepository>();

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Command
 {
-    public class AddAccountCommand : IRequest<ReturnType<string>>
+    public class AddChangeIDPasswordCommand : IRequest<ReturnType<string>>
     {
-        public long AccountRequestId { get; set; }
-        public string UserName { get; set; }
+        public long UserId { get; set; }
+        public long AccountId { get; set; }
         public string Password { get; set; }
         public long SessionUser { get; set; }
     }

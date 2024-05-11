@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Query
 {
-    public class AccountRequestDetailsQuery : IRequest<ReturnType<AccountRequest>>
+    public class ListIDCloseRequestCommand : IRequest<ReturnType<IDDetail>>
     {
-        public long AccountRequestId { get; set; }
+        public long UserId { get; set; }
+        public long SessionUser { get; set; }
     }
 }

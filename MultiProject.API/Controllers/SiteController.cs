@@ -39,9 +39,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("ViewThisSiteDetails")]
-        public async Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery request)
+        public async Task<ReturnType<IDDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery request)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<IDDetail> returnType = new ReturnType<IDDetail>();
             try
             {
                 returnType = await _mediator.Send(request);

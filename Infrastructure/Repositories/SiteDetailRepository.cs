@@ -27,9 +27,9 @@ namespace Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<ReturnType<AccountDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery entity)
+        public async Task<ReturnType<IDDetail>> ViewThisSiteDetails(ViewThisSiteDetailsQuery entity)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<IDDetail> returnType = new ReturnType<IDDetail>();
             try
             {
                 var parameters = new DynamicParameters();
@@ -40,7 +40,7 @@ namespace Infrastructure.Repositories
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
-                    var res = await connection.QueryAsync<AccountDetail>("USP_GetAccountDetail", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var res = await connection.QueryAsync<IDDetail>("USP_GetAccountDetail", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
                     returnType.ReturnVal = res.FirstOrDefault();

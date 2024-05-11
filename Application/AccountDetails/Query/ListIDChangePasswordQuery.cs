@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Query
 {
-    public class AccountRequestListQuery : IRequest<ReturnType<AccountRequest>>
+    public class ListIDChangePasswordQuery : IRequest<ReturnType<IDDetail>>
     {
         public long UserId { get; set; }
         public long SessionUser { get; set; }

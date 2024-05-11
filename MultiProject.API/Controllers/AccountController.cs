@@ -21,10 +21,10 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
-        [Route("GetAccounts")]
-        public async Task<ReturnType<AccountDetail>> GetAccounts(GetAccountsQuery request)
+        [Route("GetIDs")]
+        public async Task<ReturnType<IDDetail>> GetIDs(GetIDsQuery request)
         {
-            ReturnType<AccountDetail> returnType = new ReturnType<AccountDetail>();
+            ReturnType<IDDetail> returnType = new ReturnType<IDDetail>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -37,10 +37,10 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
-        [Route("AccountRequestList")]
-        public async Task<ReturnType<AccountRequest>> AccountRequestList(AccountRequestListQuery request)
+        [Route("IDRequestList")]
+        public async Task<ReturnType<IDRequest>> IDRequestList(IDRequestListQuery request)
         {
-            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
+            ReturnType<IDRequest> returnType = new ReturnType<IDRequest>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -53,13 +53,13 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpGet]
-        [Route("AccountRequestDetails/{AccountRequestId}")]
-        public async Task<ReturnType<AccountRequest>> AccountRequestDetails(long AccountRequestId)
+        [Route("IDRequestDetails/{AccountRequestId}")]
+        public async Task<ReturnType<IDRequest>> IDRequestDetails(long AccountRequestId)
         {
-            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
+            ReturnType<IDRequest> returnType = new ReturnType<IDRequest>();
             try
             {
-                AccountRequestDetailsQuery request = new AccountRequestDetailsQuery()
+                IDRequestDetailsQuery request = new IDRequestDetailsQuery()
                 {
                     AccountRequestId = AccountRequestId
                 };
@@ -74,9 +74,9 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("RejectedRequestList")]
-        public async Task<ReturnType<AccountRequest>> RejectedRequestList(AccountRequestListQuery request)
+        public async Task<ReturnType<IDRequest>> RejectedRequestList(IDRequestListQuery request)
         {
-            ReturnType<AccountRequest> returnType = new ReturnType<AccountRequest>();
+            ReturnType<IDRequest> returnType = new ReturnType<IDRequest>();
             try
             {
                 returnType = await _mediator.Send(request);
@@ -89,8 +89,8 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddAccount")]
-        public async Task<ReturnType<string>> AddAccount(AddAccountCommand request)
+        [Route("AddID")]
+        public async Task<ReturnType<string>> AddID(AddIDCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
@@ -105,8 +105,8 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddAccountRequest")]
-        public async Task<ReturnType<string>> AddAccountRequest(AddAccountRequestCommand request)
+        [Route("AddIDRequest")]
+        public async Task<ReturnType<string>> AddIDRequest(AddIDRequestCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
@@ -120,26 +120,74 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpPost]
+        [Route("DeleteIDRequest")]
+        public async Task<ReturnType<string>> DeleteIDRequest(DeleteIDRequestCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > DeleteAccount");
+            }
+            return returnType;
+        }
+    
+        [HttpPost]
+        [Route("DeleteID")]
+        public async Task<ReturnType<string>> DeleteID(DeleteIDCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > DeleteAccount");
+            }
+            return returnType;
+        }
+
 
         [HttpPost]
-        [Route("DeleteAccountRequest")]
-        public async Task<ReturnType<string>> DeleteAccountRequest(DeleteAccountRequestCommand request)
+        [Route("ListIDChangePassword")]
+        public async Task<ReturnType<IDDetail>> ListIDChangePassword(ListIDChangePasswordQuery request)
         {
-            ReturnType<string> returnType = new ReturnType<string>();
+            ReturnType<IDDetail> returnType = new ReturnType<IDDetail>();
             try
             {
                 returnType = await _mediator.Send(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > DeleteAccount");
+                _logger.LogError(ex, "Exception Occured at AccountController > ListIDChangePassword");
             }
             return returnType;
         }
-    
+
         [HttpPost]
-        [Route("DeleteAccount")]
-        public async Task<ReturnType<string>> DeleteAccount(DeleteAccountCommand request)
+        [Route("ListIDCloseRequest")]
+        public async Task<ReturnType<IDDetail>> ListIDCloseRequest(ListIDCloseRequestCommand request)
+        {
+            ReturnType<IDDetail> returnType = new ReturnType<IDDetail>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > ListIDCloseRequest");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("AddChangeIDPassword")]
+        public async Task<ReturnType<string>> AddChangeIDPassword(AddChangeIDPasswordCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try
@@ -148,11 +196,58 @@ namespace MultiProject.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception Occured at AccountController > DeleteAccount");
+                _logger.LogError(ex, "Exception Occured at AccountController > AddChangeIDPassword");
             }
             return returnType;
         }
-    
-    
+
+        [HttpPost]
+        [Route("AddCloseID")]
+        public async Task<ReturnType<string>> AddCloseID(AddCloseIDCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > AddCloseID");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("ConfirmChangeIDPassword")]
+        public async Task<ReturnType<string>> ConfirmChangeIDPassword(ConfirmChangeIDPasswordCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > ConfirmChangeIDPassword");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
+        [Route("ConfirmCloseID")]
+        public async Task<ReturnType<string>> ConfirmCloseID(ConfirmCloseIDCommand request)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at AccountController > ConfirmCloseID");
+            }
+            return returnType;
+        }
+
     }
 }

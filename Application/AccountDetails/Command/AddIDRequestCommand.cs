@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.AccountDetails.Command
 {
-    public class DeleteAccountCommand : IRequest<ReturnType<string>>
+    public class AddIDRequestCommand : IRequest<ReturnType<string>>
     {
         public long UserId { get; set; }
-        public int SiteID { get; set; }
+        public int SiteId { get; set; }
+        public string UserName { get; set; }
         public long SessionUser { get; set; }
     }
 }

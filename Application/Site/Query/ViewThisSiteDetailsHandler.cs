@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Site.Query
 {
-    public class ViewThisSiteDetailsHandler : IRequestHandler<ViewThisSiteDetailsQuery, ReturnType<AccountDetail>>
+    public class ViewThisSiteDetailsHandler : IRequestHandler<ViewThisSiteDetailsQuery, ReturnType<IDDetail>>
     {
         private readonly ISiteDetailRepository _siteDetailRepository;
         public ViewThisSiteDetailsHandler(ISiteDetailRepository siteDetailRepository)
@@ -18,7 +18,7 @@ namespace Application.Site.Query
             _siteDetailRepository = siteDetailRepository;
         }
 
-        public async Task<ReturnType<AccountDetail>> Handle(ViewThisSiteDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<ReturnType<IDDetail>> Handle(ViewThisSiteDetailsQuery request, CancellationToken cancellationToken)
         {
             return await _siteDetailRepository.ViewThisSiteDetails(request);
         }

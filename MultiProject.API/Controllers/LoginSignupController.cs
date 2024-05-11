@@ -41,7 +41,7 @@ namespace MultiProject.API.Controllers
 
         [HttpPost]
         [Route("Signup")]
-        public async Task<ReturnType<string>> Signup(AddAccountCommand request)
+        public async Task<ReturnType<string>> Signup(AddIDCommand request)
         {
             ReturnType<string> returnType = new ReturnType<string>();
             try

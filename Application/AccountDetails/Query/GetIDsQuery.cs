@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.AccountDetails.Command
+namespace Application.AccountDetails.Query
 {
-    public class DeleteAccountRequestCommand : IRequest<ReturnType<string>>
+    public class GetIDsQuery : IRequest<ReturnType<IDDetail>>
     {
-        public int AccountrequestId { get; set; }
+        public long UserId { get; set; }
         public long SessionUser { get; set; }
     }
 }
