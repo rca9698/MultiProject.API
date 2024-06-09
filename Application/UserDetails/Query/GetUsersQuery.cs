@@ -12,5 +12,6 @@ namespace Application.UserDetails.Query
     public class GetUsersQuery: IRequest<ReturnType<UserDetail>>
     {
         public long SessionUser { get; set; }
+        public int PageNumber { get; set; }
     }
 }

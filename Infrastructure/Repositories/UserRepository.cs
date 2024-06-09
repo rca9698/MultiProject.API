@@ -35,14 +35,15 @@ namespace Infrastructure.Repositories
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@SessionUser", entity.SessionUser);
+                parameters.Add("@PageNumber", entity.PageNumber);
                 parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
 
                 using (var connection = CreateConnection())
                 {
                     connection.Open();
                     var res = await connection.QueryAsync<UserDetail>("USP_GetListUsers", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                    int returnVal = parameters.Get<int>("@ReturnVal");
-                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.PaginationCount = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)1;
                     returnType.ReturnList = res.ToList();
                 }
             }

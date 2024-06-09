@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace MultiProject.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class BaseAPIController : ControllerBase
     {

@@ -13,6 +13,7 @@ namespace Domain.Common
         public ReturnStatus ReturnStatus { get; set; }
         public List<T> ReturnList { get; set; }
         public string ReturnMessage { get; set; }
-
+        public int PaginationCount { get; set; }
+        public int TotalCount { get; set; }
     }
 }

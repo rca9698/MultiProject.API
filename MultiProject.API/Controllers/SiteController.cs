@@ -15,10 +15,15 @@ namespace MultiProject.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<SiteController> _logger;
-        public SiteController(IMediator mediator, ILogger<SiteController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public SiteController(IMediator mediator, ILogger<SiteController> logger, IHttpContextAccessor httpContextAccessor, IConfiguration configuration
+            , IWebHostEnvironment hostingEnvironment) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
@@ -70,6 +75,52 @@ namespace MultiProject.API.Controllers
         }
 
         [HttpPost]
+        [Route("AddSiteDetail")]
+        public async Task<ReturnType<string>> AddSiteDetail()
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+                var file = formCollection.Files.First();
+                var SiteId = formCollection["SiteId"];
+                var SiteName = formCollection["SiteName"];
+                var SiteURL = formCollection["SiteURL"];
+                var SessionUser = formCollection["SessionUser"];
+
+                string iconContentPath = _configuration["StoragePath:SiteIcon:Path"];
+                string fileName = Guid.NewGuid().ToString();
+                if (!Directory.Exists(iconContentPath))
+                {
+                    Directory.CreateDirectory(iconContentPath);
+                }
+                var extenstion = file.FileName.Split(".").LastOrDefault();
+                string docName = iconContentPath + "\\" + Path.GetFileName(fileName + "." + extenstion);
+
+                using (FileStream stream = new FileStream(Path.Combine(docName), FileMode.Create))
+                    file.CopyTo(stream);
+
+                AddSiteCommand request = new AddSiteCommand()
+                {
+                    DocumentDetailId = fileName,
+                    ImageName = file.FileName,
+                    ImageSize = file.Length.ToString(),
+                    SiteName = SiteName,
+                    SiteURL = SiteURL,
+                    FileExtenstion = extenstion,
+                    SessionUser = Convert.ToInt64(SessionUser)
+                };
+
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > AddSites");
+            }
+            return returnType;
+        }
+
+        [HttpPost]
         [Route("DeleteSite")]
         public async Task<ReturnType<string>> DeleteSite(DeleteSiteCommand request)
         {
@@ -100,6 +151,54 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+        [HttpPost]
+        [Route("UpdateSiteDetail")]
+        public async Task<ReturnType<string>> UpdateSiteDetail()
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+                var file = formCollection.Files.First();
+                var SiteName = formCollection.Keys.FirstOrDefault(x => x == "SiteName");
+                var SiteURL = formCollection.Keys.FirstOrDefault(x => x == "SiteURL");
+                var SessionUser = formCollection.Keys.FirstOrDefault(x => x == "SessionUser");
+                var SiteId = formCollection.Keys.FirstOrDefault(x => x == "SiteId");
+
+                string iconContentPath = _configuration["StoragePath:SiteIcon:Path"];
+                string fileName = Guid.NewGuid().ToString();
+                if (!Directory.Exists(iconContentPath))
+                {
+                    Directory.CreateDirectory(iconContentPath);
+                }
+                var extenstion = file.FileName.Split(".").LastOrDefault();
+                string docName = iconContentPath + "\\" + Path.GetFileName(fileName + "." + extenstion);
+
+                using (FileStream stream = new FileStream(Path.Combine(docName), FileMode.Create))
+                    file.CopyTo(stream);
+
+                UpdateSiteCommand request = new UpdateSiteCommand()
+                {
+                    DocumentDetailId = docName,
+                    ImageName = file.FileName,
+                    ImageSize = file.Length.ToString(),
+                    SiteName = SiteName,
+                    SiteURL = SiteURL,
+                    FileExtenstion = extenstion,
+                    SessionUser = Convert.ToInt64(SessionUser),
+                    SiteId = Convert.ToInt32(SiteId)
+                };
+
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at SiteController > AddSites");
+            }
+            return returnType;
+        }
+
 
         [HttpGet]
         [Route("GetUserListSiteById/{userId}")]
