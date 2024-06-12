@@ -4,8 +4,10 @@ using Application.LoginSgnup.Command;
 using Domain.Common;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MultiProject.API.Services;
 
 namespace MultiProject.API.Controllers
 {
@@ -16,13 +18,15 @@ namespace MultiProject.API.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<LoginSignupController> _logger;
         private readonly ILoginSignupRepository _loginSignupRepository;
-        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor, ILoginSignupRepository loginSignupRepository) //: base(httpContextAccessor)
+        private readonly ITokenService _tokenService;
+        public LoginSignupController(IMediator mediator, ILogger<LoginSignupController> logger, IHttpContextAccessor httpContextAccessor, ILoginSignupRepository loginSignupRepository, ITokenService tokenService) //: base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
             _loginSignupRepository = loginSignupRepository;
+            _tokenService = tokenService;
         }
-
+         
         [HttpPost]
         [Route("Login")]
         public async Task<ReturnType<UserDetail>> Login(LoginCommand request)
@@ -37,6 +41,30 @@ namespace MultiProject.API.Controllers
                 _logger.LogError(ex, "Exception Occured at LoginSignupController > Login");
             }
             return returnType;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Login_GetToken")]
+        public async Task<IActionResult> Login_GetToken(LoginCommand request)
+        {
+            ReturnType<UserDetail> returnType = new ReturnType<UserDetail>();
+            try
+            {
+                returnType = await _mediator.Send(request);
+
+                if(returnType.ReturnStatus == Domain.Enum.ReturnStatus.Success)
+                {
+                   return Ok(_tokenService.GenerateToken(returnType.ReturnVal.UserId, returnType.ReturnVal.Otp));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at LoginSignupController > Login"+ ex);
+                return Ok(new { status = "Failure", reason = ex.Message });
+            }
+
+            return Ok(new { status = "Failure", reason = "Invalid" });
         }
 
         [HttpPost]

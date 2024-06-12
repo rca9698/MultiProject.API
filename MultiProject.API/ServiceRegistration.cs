@@ -6,6 +6,7 @@ using Application.Common.Interface;
 using Infrastructure.Repositories;
 using MediatR;
 using MultiProject.API.ServiceFilter;
+using MultiProject.API.Services;
 
 namespace MultiProject.API
 {
@@ -27,6 +28,9 @@ namespace MultiProject.API
             services.AddTransient<IPassbookHistoryRepository, PassbookHistoryRepository>();
             services.AddTransient<IHomeRepository, HomeRepository>();
             services.AddTransient<IProfileRepository, ProfileRepository>();
+
+
+            services.AddTransient<ITokenService, TokenService>();
         }
     }
 }

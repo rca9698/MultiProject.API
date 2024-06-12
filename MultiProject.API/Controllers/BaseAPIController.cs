@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting.Internal;
 
 namespace MultiProject.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class BaseAPIController : ControllerBase
     {
