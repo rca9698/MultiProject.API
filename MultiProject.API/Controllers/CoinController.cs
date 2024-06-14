@@ -1,11 +1,13 @@
 ﻿using Application.CoinsDetail.Command;
 using Application.CoinsDetail.Common.Interface;
 using Application.CoinsDetail.Query;
+using Application.Site.Command;
 using Domain.Common;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MultiProject.API.ServiceFilter;
 
 namespace MultiProject.API.Controllers
@@ -18,10 +20,13 @@ namespace MultiProject.API.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
         private readonly ICoinRepository _coinRepository;
-        public CoinController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor, ICoinRepository coinRepository) : base(httpContextAccessor)
+        private readonly IConfiguration _configuration;
+
+        public CoinController(IMediator mediator, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor, ICoinRepository coinRepository, IConfiguration configuration) : base(httpContextAccessor)
         {
             _mediator = mediator;
             _logger = logger;
+            _configuration = configuration;
             _coinRepository = coinRepository; 
         }
 
@@ -120,6 +125,60 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
+
+
+        [HttpPost]
+        [Route("AddCoinsRequestDetail")]
+        public async Task<ReturnType<string>> AddCoinsRequestDetail()
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            var formCollection = await Request.ReadFormAsync();
+            var file = formCollection.Files.First();
+            var coins = formCollection["coins"];
+            var userid = formCollection["userid"];
+            var sessionuser = formCollection["sessionuser"];
+
+            string iconContentPath = _configuration["StoragePath:paymentProof:Path"];
+            string fileName = Guid.NewGuid().ToString();
+            if (!Directory.Exists(iconContentPath))
+            {
+                Directory.CreateDirectory(iconContentPath);
+            }
+            var extenstion = file.FileName.Split(".").LastOrDefault();
+            string docName = iconContentPath + "\\" + Path.GetFileName(fileName + "." + extenstion);
+
+            using (FileStream stream = new FileStream(Path.Combine(docName), FileMode.Create))
+                file.CopyTo(stream);
+
+            InsertCoinRequestCommand request = new InsertCoinRequestCommand()
+            {
+                DocumentDetailId = fileName,
+                ImageName = file.FileName,
+                ImageSize = file.Length.ToString(), 
+                FileExtenstion = extenstion,
+                Coins = Convert.ToInt32(coins),
+                UserId = Convert.ToInt64(userid),
+                SessionUser = Convert.ToInt64(sessionuser)
+            };
+
+            if (_userId != request.SessionUser)
+            {
+                returnType.ReturnMessage = "Not a valid session User!!!";
+                return returnType;
+            }
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > AddCoinsRequest");
+            }
+            return returnType;
+        }
+
 
         [HttpPost]
         [Route("WithDrawCoinsRequest")]
