@@ -23,7 +23,7 @@ namespace MultiProject.API.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("UserId", userId.ToString()), new Claim("otp", otp.ToString()), new Claim(ClaimTypes.Role, string.Join(",", GetRoles(userId)))}),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(365),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -31,7 +31,6 @@ namespace MultiProject.API.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return new { token = tokenHandler.WriteToken(token), status = "Success" };
-
         }
 
         public string[] GetRoles(long userId) {
