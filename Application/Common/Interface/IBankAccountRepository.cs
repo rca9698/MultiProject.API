@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Application.Common.Interface
 {
@@ -30,6 +31,7 @@ namespace Application.Common.Interface
 
 
         Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser, string UserName);
+        Task<ReturnType<string>> AddUpdateAdminQRDetail(string qrName, string fileName, string extenstion,string userId, string SessionUser);
         Task<ReturnType<BankDetails>> GetAdminQRCode();
     }
 }

@@ -443,6 +443,34 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+        public async Task<ReturnType<string>> AddUpdateAdminQRDetail(string qrName, string fileName, string extenstion, string userId, string SessionUser)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserName", qrName);
+                parameters.Add("@fileName", fileName);
+                parameters.Add("@fileextension", extenstion);
+                parameters.Add("@SessionUser", SessionUser);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_InsertUpdateAdminQRCode", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > AddUpdateAdminQRDetail");
+            }
+            return returnType;
+        }
+
         public async Task<ReturnType<BankDetails>> GetAdminQRCode()
         {
             ReturnType<BankDetails> returnType = new ReturnType<BankDetails>();

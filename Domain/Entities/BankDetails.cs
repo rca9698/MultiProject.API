@@ -16,6 +16,8 @@ namespace Domain.Entities
         public string IFSCCode { get; set; }
         public string UpiId { get; set; }
         public string QrPath { get; set; }
+        public string DocumentDetailId { get; set; }
+        public string FileExtenstion { get; set; }
         public bool IsDefault { get; set; }
         public string AccountDisplayName { get; set; }
         public string CreatedBy { get; set; }
