@@ -33,5 +33,6 @@ namespace Application.Common.Interface
         Task<ReturnType<string>> AddUpdateAdminQRCode(long SessionUser, string UserName);
         Task<ReturnType<string>> AddUpdateAdminQRDetail(string qrName, string fileName, string extenstion,string userId, string SessionUser);
         Task<ReturnType<BankDetails>> GetAdminQRCode();
+        Task<ReturnType<string>> DeleteAdminQrAccount(long sessionUser, long QrID);
     }
 }

@@ -405,6 +405,7 @@ namespace Infrastructure.Repositories
                     var res = await connection.QueryAsync<string>("USP_DeleteAdminUpiAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
                     int returnVal = parameters.Get<int>("@ReturnVal");
                     returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
                 }
 
             }
@@ -496,5 +497,32 @@ namespace Infrastructure.Repositories
             return returnType;
         }
 
+
+        public async Task<ReturnType<string>> DeleteAdminQrAccount(long sessionUser, long QrID)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@SessionUser", sessionUser);
+                parameters.Add("@QrID", QrID);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_DeleteAdminQrAccount", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnMessage = res.FirstOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountRepository > DeleteAdminUpiAccount");
+            }
+            return returnType;
+        }
     }
 }

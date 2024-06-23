@@ -186,12 +186,6 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
-
             try
             {
                 returnType = await _mediator.Send(request);

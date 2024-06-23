@@ -328,6 +328,21 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpGet]
+        [Route("DeleteAdminQrAccount/{sessionUser}/{QrId}")]
+        public async Task<ReturnType<string>> DeleteAdminQrAccount(long sessionUser, long QrId)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                returnType = await _bankAccountRepository.DeleteAdminQrAccount(sessionUser, QrId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at BankAccountController > DeleteAdminQrAccount");
+            }
+            return returnType;
+        }
 
     }
 }
