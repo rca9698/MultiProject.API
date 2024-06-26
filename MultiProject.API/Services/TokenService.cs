@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Common.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,9 +11,11 @@ namespace MultiProject.API.Services
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-        public TokenService(IConfiguration configuration)
+        private readonly ILoginSignupRepository _loginSignupRepository;
+        public TokenService(IConfiguration configuration, ILoginSignupRepository loginSignupRepository)
         {
             _configuration = configuration;
+            _loginSignupRepository = loginSignupRepository;
         }
 
         public object GenerateToken(long userId, string otp)
@@ -33,11 +36,9 @@ namespace MultiProject.API.Services
             return new { token = tokenHandler.WriteToken(token), status = "Success" };
         }
 
-        public string[] GetRoles(long userId) {
-            return new string[]
-            {
-                "Admin"
-            };
+        public string[] GetRoles(long userId) 
+        {
+            return _loginSignupRepository.getRoles(userId).Result.ReturnList.ToArray();
         }
 
     }

@@ -105,5 +105,30 @@ namespace Infrastructure.Repositories
             }
             return returnType;
         }
+
+        public async Task<ReturnType<string>> getRoles(long userId)
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@userId", userId);
+                parameters.Add("@ReturnVal", dbType: DbType.Int16, direction: ParameterDirection.ReturnValue);
+
+                using (var connection = CreateConnection())
+                {
+                    connection.Open();
+                    var res = await connection.QueryAsync<string>("USP_Get_User_Roles", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    int returnVal = parameters.Get<int>("@ReturnVal");
+                    returnType.ReturnStatus = (ReturnStatus)returnVal;
+                    returnType.ReturnList = res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at LoginSignupRepository > getRoles");
+            }
+            return returnType;
+        }
     }
 }

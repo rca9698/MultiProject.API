@@ -14,5 +14,6 @@ namespace Application.Common.Interface
         public Task<ReturnType<UserDetail>> Login(LoginCommand entity);
         public Task<ReturnType<string>> Signup(SignupCommand entity);
         public Task<ReturnType<Otp_Login_Model>> Generate_Otp(string MobileNumber);
+        public Task<ReturnType<string>> getRoles(long userId);
     }
 }
