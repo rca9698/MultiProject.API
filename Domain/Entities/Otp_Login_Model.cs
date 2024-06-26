@@ -13,5 +13,6 @@ namespace Domain.Entities
         public string Message { get; set; }
         public string Sid { get; set; }
         public string MobileNumber { get; set; }
+        public string role { get; set; }
     }
 }
