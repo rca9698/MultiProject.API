@@ -125,9 +125,6 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
-
-
-
         [HttpPost]
         [Route("DeleteAdminBankAccount")]
         public async Task<ReturnType<string>> DeleteAdminBankAccount(DeleteAdminBankAccountCommand request)
@@ -257,9 +254,6 @@ namespace MultiProject.API.Controllers
             }
             return returnType;
         }
-
-
-
 
         [HttpGet]
         [Route("AddUpdateAdminQRCode/{SessionUser}/{UserName}")]

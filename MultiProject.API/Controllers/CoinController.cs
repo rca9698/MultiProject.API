@@ -36,11 +36,11 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<CoinsRequestModel> returnType = new ReturnType<CoinsRequestModel>();
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
@@ -162,11 +162,11 @@ namespace MultiProject.API.Controllers
                 SessionUser = Convert.ToInt64(sessionuser)
             };
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
@@ -203,11 +203,11 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
-            if(_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            } 
+            //if(_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //} 
 
             try
             {
@@ -226,11 +226,11 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
@@ -243,6 +243,61 @@ namespace MultiProject.API.Controllers
             return returnType;
         }
 
+        [HttpPost]
+        [Route("RemoveCoinsFromWallet")]
+        public async Task<ReturnType<string>> RemoveCoinsFromWallet()
+        {
+            ReturnType<string> returnType = new ReturnType<string>();
+
+            var formCollection = await Request.ReadFormAsync();
+            var file = formCollection.Files.First();
+            var coins = formCollection["coins"];
+            var userid = formCollection["userid"];
+            var coinType = formCollection["CoinType"];
+            var coinsRequestId = formCollection["CoinsRequestId"];
+            var sessionuser = formCollection["sessionuser"];
+
+            string iconContentPath = _configuration["StoragePath:paymentProof:Path"];
+            string fileName = Guid.NewGuid().ToString();
+            if (!Directory.Exists(iconContentPath))
+            {
+                Directory.CreateDirectory(iconContentPath);
+            }
+            var extenstion = file.FileName.Split(".").LastOrDefault();
+            string docName = iconContentPath + "\\" + Path.GetFileName(fileName + "." + extenstion);
+
+            using (FileStream stream = new FileStream(Path.Combine(docName), FileMode.Create))
+                file.CopyTo(stream);
+
+            DeleteCoinsCommand request = new DeleteCoinsCommand()
+            {
+                CoinsRequestId = coinsRequestId,
+                DocumentDetailId = fileName,
+                ImageName = file.FileName,
+                ImageSize = file.Length.ToString(),
+                FileExtenstion = extenstion,
+                Coins = Convert.ToInt32(coins),
+                UserId = Convert.ToInt64(userid),
+                CoinType = Convert.ToInt32(coinType),
+                SessionUser = Convert.ToInt64(sessionuser)
+            };
+
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
+
+            try
+            {
+                returnType = await _mediator.Send(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception Occured at CoinController > DeleteCoins");
+            }
+            return returnType;
+        }
 
         [HttpPost]
         [Route("UpdateCoinsToAccountRequest")]

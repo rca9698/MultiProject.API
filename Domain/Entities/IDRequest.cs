@@ -17,5 +17,6 @@ namespace Domain.Entities
         public string UserName { get; set; }
         public string DocumentDetailId { get; set; }
         public string FileExtenstion { get; set; }
+        public string CreatedDate { get; set; }
     }
 }
