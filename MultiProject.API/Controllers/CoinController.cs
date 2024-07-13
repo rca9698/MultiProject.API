@@ -63,11 +63,11 @@ namespace MultiProject.API.Controllers
                 CoinType = CoinType,
                 SessionUser = SessionUser
             };
-            if (_userId != SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
@@ -305,11 +305,11 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
@@ -328,11 +328,11 @@ namespace MultiProject.API.Controllers
         {
             ReturnType<string> returnType = new ReturnType<string>();
 
-            if (_userId != request.SessionUser)
-            {
-                returnType.ReturnMessage = "Not a valid session User!!!";
-                return returnType;
-            }
+            //if (_userId != request.SessionUser)
+            //{
+            //    returnType.ReturnMessage = "Not a valid session User!!!";
+            //    return returnType;
+            //}
 
             try
             {
