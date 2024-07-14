@@ -25,13 +25,13 @@ builder.Services.AddEndpointsApiExplorer();
 //});
 builder.Services.AddCors(options =>
 {
-     options.AddDefaultPolicy(
-                           policy =>
-                          {
-                              policy.AllowAnyOrigin()
-                                                  .AllowAnyHeader()
-                                                  .AllowAnyMethod();
-                          });
+    options.AddPolicy("AllowAnyOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
 });
 
 builder.Services.AddSwaggerGen(option =>
@@ -99,7 +99,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
+app.UseCors("AllowAnyOrigin");
 app.MapControllers();
 
 app.Run();
