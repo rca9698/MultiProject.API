@@ -62,7 +62,11 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 builder.Services.AddServiceDependency(builder.Configuration); //custom ServiceRegistration
-//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+                                                              //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddHttpClient();
 
 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 {
