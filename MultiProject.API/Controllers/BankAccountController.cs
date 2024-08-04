@@ -285,17 +285,43 @@ namespace MultiProject.API.Controllers
                 var userId = formCollection["userId"];
                 var SessionUser = formCollection["sessionUser"];
 
-                string iconContentPath = _configuration["StoragePath:QRPath:Path"];
-                string fileName = Guid.NewGuid().ToString();
-                if (!Directory.Exists(iconContentPath))
-                {
-                    Directory.CreateDirectory(iconContentPath);
-                }
-                var extenstion = file.FileName.Split(".").LastOrDefault();
-                string docName = iconContentPath + "\\" + Path.GetFileName(fileName + "." + extenstion);
+                var path = _configuration["StoragePath:QRPath:Path"];
+                var apiUri = _configuration["ApiConfigs:MultilogDocument:Uri"];
 
-                using (FileStream stream = new FileStream(Path.Combine(docName), FileMode.Create))
-                    file.CopyTo(stream);
+                string fileName = Guid.NewGuid().ToString();
+                var extenstion = file.FileName.Split(".").LastOrDefault();
+
+                byte[] fileBytes = null;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    fileBytes = memoryStream.ToArray();
+                }
+
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        // Read the file data
+                        var fileContent = new ByteArrayContent(fileBytes);
+
+                        // Add the file content to the multipart form data
+                        formData.Add(fileContent, "file", fileName + "." + extenstion);
+                        formData.Add(new StringContent(path), "path");
+
+                        // API endpoint URL
+                        var apiUrl = $"{apiUri}api/Document/AddDocument/";
+
+                        // Send the request and get the response asynchronously
+                        var response = await client.PostAsync(apiUrl, formData);
+
+                        // Ensure the response is successful
+                        response.EnsureSuccessStatusCode();
+
+                        // Return the response content as a string
+                        var dd = await response.Content.ReadAsStringAsync();
+                    }
+                }
 
                 returnType = await _bankAccountRepository.AddUpdateAdminQRDetail(qrName, fileName, extenstion, userId, SessionUser);
             }

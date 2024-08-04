@@ -105,11 +105,16 @@ namespace MultiProject.API.Controllers
                 var otp = returnType.ReturnVal.Otp;
                 var sid = returnType.ReturnVal.Sid;
                 var Message = $"{returnType.ReturnVal.Message}";
+                string otpResp = "success";
                 var smsBaseUrl = "http://cloud.smsindiahub.in/vendorsms/pushsms.aspx";
+                if(returnType.ReturnVal.role != "admin")
+                {
+                    var smsUrl = $"{smsBaseUrl}?APIKey={apiKey}&msisdn={MobileNumber}&sid={sid}&msg={Message}";
+                    var response = await _client.GetAsync(smsUrl);
+                     otpResp = await response.Content.ReadAsStringAsync();
+                   
+                }
 
-                var smsUrl = $"{smsBaseUrl}?APIKey={apiKey}&msisdn={MobileNumber}&sid={sid}&msg={Message}";
-                var response = await _client.GetAsync(smsUrl);
-                var otpResp = await response.Content.ReadAsStringAsync();
                 if (otpResp != null && otpResp.Contains("Failed"))
                 {
                     returnType.ReturnMessage = "Failed to send OTP your number!!";
@@ -117,7 +122,9 @@ namespace MultiProject.API.Controllers
                 }
                 else
                 {
-                    returnType.ReturnVal = null;
+                    returnType.ReturnVal.ApiKey = null;
+                    returnType.ReturnVal.Sid = null;
+                    returnType.ReturnVal.Message = null;
                     returnType.ReturnMessage = "OTP sent to your number!!!";
                     returnType.ReturnStatus = ReturnStatus.Success;
                 }
